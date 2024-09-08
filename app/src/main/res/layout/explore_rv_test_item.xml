@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_marginVertical="@dimen/exploreFragmentBaseMargin"
+    android:layout_width="match_parent"
+    android:layout_height="360dp"
+    android:layout_gravity="center"
+    android:background="@null">
+
+    <View
+        android:id="@+id/first"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/second"
+        app:layout_constraintEnd_toStartOf="@id/second"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/second"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/third"
+        app:layout_constraintEnd_toStartOf="@id/third"
+        app:layout_constraintStart_toEndOf="@id/first"
+        app:layout_constraintTop_toBottomOf="@id/first" />
+
+    <View
+        android:id="@+id/third"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/second"
+        app:layout_constraintTop_toBottomOf="@id/second" />
+
+    <TextView
+        android:id="@+id/animeLineTitleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/defaultMargin"
+        app:layout_constraintBottom_toTopOf="@id/innerRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/ubuntu_medium"
+        android:textSize="32sp"
+        tools:text="Top 100" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/innerRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/animeLineTitleView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

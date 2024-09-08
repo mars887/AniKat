@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mainNavBarMenuExploreAnime"
+        android:icon="@drawable/explore_anime_svg"
+        android:title="@string/mainNavBarExploreAnimeText" />
+    <item
+        android:id="@+id/mainNavBarMenuExploreManga"
+        android:icon="@drawable/explore_manga_svg"
+        android:title="@string/mainNavBarExploreMangaText" />
+    <item
+        android:id="@+id/tempItem"
+        android:title="Temp"
+        android:icon="@drawable/baseline_add_circle_24"/>
+    <item
+        android:id="@+id/mainNavBarMenuProfile"
+        android:icon="@drawable/profile_svg"
+        android:title="@string/mainNavBarProfileText" />
+</menu>

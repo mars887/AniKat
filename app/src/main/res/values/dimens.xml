@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="defaultMargin">8dp</dimen>
+
+    <dimen name="exploreFragmentBaseMargin">10dp</dimen>
+    <dimen name="exploreFragmentSearchViewHeight">55dp</dimen>
+</resources>

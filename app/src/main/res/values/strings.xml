@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AniKat</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mainNavBarExploreAnimeText">Anime</string>
+    <string name="mainNavBarExploreMangaText">Manga</string>
+    <string name="mainNavBarProfileText">Profile</string>
 </resources>
