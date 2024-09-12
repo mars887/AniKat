@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/startUpFragment">
+    <fragment
+        android:id="@+id/exploreAnimeFragment"
+        android:name="daxo.the.anikat.fragments.browse.ExploreAnimeFragment"
+        android:label="ExploreAnimeFragment" />
+    <fragment
+        android:id="@+id/exploreMangaFragment"
+        android:name="daxo.the.anikat.fragments.browse.ExploreMangaFragment"
+        android:label="ExploreMangaFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="daxo.the.anikat.fragments.profile.ProfileFragment"
+        android:label="fragment_profile" />
+    <fragment
+        android:id="@+id/startUpFragment"
+        android:name="daxo.the.anikat.tests.StartUpFragment"
+        android:label="fragment_start_up" />
+    <fragment
+        android:id="@+id/mainMediaPageFragment"
+        android:name="daxo.the.anikat.fragments.mediapage.MainMediaPageFragment"
+        android:label="fragment_main_media_page" />
+</navigation>

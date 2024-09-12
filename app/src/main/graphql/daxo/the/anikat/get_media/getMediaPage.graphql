@@ -1,0 +1,43 @@
+query FilteredContentPageQuery(
+    $page: Int = 1,
+    $perPage: Int = 10,
+    $type: MediaType = ANIME,
+    $sort: [MediaSort] = [POPULARITY_DESC],
+    $season: MediaSeason,
+    $seasonYear: Int,
+    $genre: String,
+    $format: MediaFormat,
+    $search: String,
+    $isAdult: Boolean
+) {
+    Page(page: $page, perPage: $perPage) {
+        media(
+            type: $type,
+            sort: $sort,
+            season: $season,
+            seasonYear: $seasonYear,
+            genre: $genre,
+            format: $format,
+            search: $search,
+            isAdult: $isAdult
+        ) {
+            id
+            title {
+                romaji
+                english
+                native
+            }
+            description
+            episodes
+            genres
+            averageScore
+            favourites
+            seasonYear
+            coverImage {
+                extraLarge
+                large
+            }
+        }
+    }
+}
+
