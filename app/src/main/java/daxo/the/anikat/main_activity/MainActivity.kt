@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         )
         activityComponent.inject(this)
 
-        initNavController()
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -68,18 +67,9 @@ class MainActivity : AppCompatActivity() {
         hideSystemUI()
     }
 
-    private fun initNavController() {
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.navHostFragmentContainerView) as NavHostFragment
-        navController = navHostFragment.navController
-    }
-
-
     private fun initOnBackPressed() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                println("back pressed")
-                //navController.popBackStack()
 
                 if (fragmentsNavigator.onBackPressed()) {
                     onBackPressedDispatcher.onBackPressed()
@@ -89,15 +79,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun clickToAnimeExplore() {
-//        val navOptions = NavOptions.Builder().setLaunchSingleTop(true).build()
-//        navController.navigate(R.id.exploreAnimeFragment, null, navOptions)
 
         fragmentsNavigator.navigateTo(R.id.exploreAnimeFragment)
     }
 
     private fun clickToMangaExplore() {
-//        val navOptions = NavOptions.Builder().setLaunchSingleTop(true).build()
-//        navController.navigate(R.id.exploreMangaFragment, null, navOptions)
 
         fragmentsNavigator.navigateTo(R.id.exploreMangaFragment)
     }

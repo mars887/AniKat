@@ -1,15 +1,21 @@
 package daxo.the.anikat.fragments.browse.util.recview
 
+import android.graphics.drawable.Animatable2
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import daxo.the.anikat.fragments.browse.data.entity.MediaCardData
-import daxo.the.anikat.fragments.browse.util.diffutil.MediaLineDiffUtilImpl
+import daxo.the.anikat.R
 import daxo.the.anikat.databinding.MediaCardItemBinding
 import daxo.the.anikat.fragments.browse.data.entity.ExploreMediaPagesInfo
+import daxo.the.anikat.fragments.browse.data.entity.MediaCardData
 import daxo.the.anikat.fragments.browse.data.entity.MediaLineData
+import daxo.the.anikat.fragments.browse.util.diffutil.MediaLineDiffUtilImpl
+
 
 class MediaLineRVAdapter(
     private val interactListener: ExploreMediaRVAdapter.ExploreMediaRVAdapterListener?
@@ -47,10 +53,27 @@ class MediaLineRVAdapter(
             position: Int
         ) {
             binding.titleTextView.text = data.title
-            binding.trendingCounterView.text = data.averageScore
+            if(data.averageScore.isBlank()) {
+                binding.trendingCounterView.visibility = View.INVISIBLE
+            } else {
+                binding.trendingCounterView.visibility = View.VISIBLE
+                binding.trendingCounterView.text = data.averageScore
+            }
+
             Glide.with(binding.root)
                 .load(data.coverImageLink)
+                .placeholder(R.drawable.media_card_placeholder_anim_vector)
                 .into(binding.posterImageView)
+
+            val drawable = binding.posterImageView.drawable
+            if(drawable is AnimatedVectorDrawable) {
+                drawable.start()
+
+                drawable.registerAnimationCallback(object : Animatable2.AnimationCallback() {
+                    override fun onAnimationEnd(none: Drawable) = drawable.start()
+                })
+            }
+
 
             binding.posterImageView.setOnClickListener {
                 interactListener?.mediaItemClicked(lineData,data,position)

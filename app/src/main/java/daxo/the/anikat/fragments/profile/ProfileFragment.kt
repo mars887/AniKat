@@ -23,7 +23,6 @@ class ProfileFragment(
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    private var injected = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,13 +34,6 @@ class ProfileFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (!injected) {
-            (requireActivity() as MainActivity).activityComponent.inject(this)
-            injected = true
-        }
-
-
 
 
     }

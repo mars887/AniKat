@@ -15,17 +15,13 @@ import daxo.the.anikat.tests.navigation_test.FragmentsNavigator
 class FragmentsModule {
 
     @Provides
-    fun provideExploreAnimeFragment(fn: FragmentsNavigator): ExploreAnimeFragment {
-        return ExploreAnimeFragment(
-            fn.getVM(ExploreViewModel::class, "ExploreAnimeFragment"), fn
-        )
+    fun provideExploreAnimeFragment(): ExploreAnimeFragment {
+        return ExploreAnimeFragment()
     }
 
     @Provides
-    fun provideExploreMangaFragment(fn: FragmentsNavigator): ExploreMangaFragment {
-        return ExploreMangaFragment(
-            fn.getVM(ExploreViewModel::class, "ExploreMangaFragment"), fn
-        )
+    fun provideExploreMangaFragment(): ExploreMangaFragment {
+        return ExploreMangaFragment()
     }
 
     @Provides

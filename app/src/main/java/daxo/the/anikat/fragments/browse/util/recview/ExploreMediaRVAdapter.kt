@@ -13,10 +13,9 @@ import daxo.the.anikat.fragments.browse.util.decorator.MediaLineDecorator
 import daxo.the.anikat.databinding.ExploreRvTestItemBinding
 import daxo.the.anikat.fragments.browse.data.entity.ExploreMediaPagesInfo
 import daxo.the.anikat.fragments.browse.data.entity.MediaCardData
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -53,47 +52,79 @@ class ExploreMediaRVAdapter(
 
     class MediaLineViewHolder(val binding: ExploreRvTestItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        private var lastTag: ExploreMediaPagesInfo.MediaTypes? = null
+
         fun bind(
             data: MediaLineData,
             context: Context,
-            interactListener: ExploreMediaRVAdapterListener?
+            interactListener: ExploreMediaRVAdapterListener?,
         ) {
             binding.animeLineTitleView.text = data.lineName
 
             val recyclerView = binding.innerRecyclerView
-            val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-            val adapter = MediaLineRVAdapter(interactListener)
 
-            adapter.data = data
-            recyclerView.layoutManager = layoutManager
-            recyclerView.adapter = adapter
-            recyclerView.addItemDecoration(
-                MediaLineDecorator(
-                    context.resources.getDimensionPixelSize(
-                        R.dimen.exploreFragmentBaseMargin
-                    )
-                )
-            )
-            recyclerView.addOnScrollListener(MediaLineOnScrollListener(layoutManager) {
-                CoroutineScope(EmptyCoroutineContext).launch {
-                    interactListener?.requirePaginate(data)?.collect {
-                        val dt = mutableListOf<MediaCardData>()
-                        dt.addAll(adapter.data.data)
-                        dt.addAll(it.data)
+            if (recyclerView.adapter != null && lastTag == data.tag) {
+                (recyclerView.adapter as MediaLineRVAdapter).data = data
+            } else {
+                val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+                val adapter = MediaLineRVAdapter(interactListener)
 
-                        withContext(Dispatchers.Main) {
-                            adapter.data = MediaLineData(
-                                it.lineName,
-                                dt, it.tag
+                adapter.data = data
+                recyclerView.layoutManager = layoutManager
+                recyclerView.adapter = adapter
+
+                if (recyclerView.itemDecorationCount == 0)
+                    recyclerView.addItemDecoration(
+                        MediaLineDecorator(
+                            context.resources.getDimensionPixelSize(
+                                R.dimen.exploreFragmentBaseMargin
                             )
+                        )
+                    )
+
+
+                recyclerView.addOnScrollListener(MediaLineOnScrollListener(layoutManager) {
+                    requestPaginate(interactListener, data, adapter)
+                })
+
+                binding.animeLineTitleView.setOnClickListener {
+                    interactListener?.mediaLineClicked(data)
+                }
+            }
+        }
+
+        private fun requestPaginate(
+            interactListener: ExploreMediaRVAdapterListener?,
+            data: MediaLineData,
+            adapter: MediaLineRVAdapter
+        ) {
+            CoroutineScope(
+                CoroutineExceptionHandler { coroutineContext, throwable ->
+                    println(throwable.message)
+                    throwable.printStackTrace()
+                }
+            ).launch {
+                interactListener?.requirePaginate(data) { response, isFromCache -> // TODO
+                    withContext(Dispatchers.Main) {
+
+                        val newLineData =
+                            MediaLineData(response.lineName, mutableListOf(), response.tag)
+                        newLineData.data.addAll(adapter.data.data)
+
+                        response.data.forEach { mcd ->
+                            val foundId =
+                                newLineData.data.indexOfFirst { it.mediaId == mcd.mediaId }
+
+                            if (foundId == -1) newLineData.data += mcd else {
+                                newLineData.data[foundId] = mcd
+                            }
                         }
 
+                        adapter.data = newLineData
+                        data.data = newLineData.data
                     }
                 }
-            })
-
-            binding.animeLineTitleView.setOnClickListener {
-                interactListener?.mediaLineClicked(data)
             }
         }
     }
@@ -101,15 +132,9 @@ class ExploreMediaRVAdapter(
     interface ExploreMediaRVAdapterListener {
         fun mediaLineClicked(dataLineData: MediaLineData)
         fun mediaItemClicked(data: MediaLineData, mediaCardData: MediaCardData, position: Int)
-        suspend fun requirePaginate(data: MediaLineData): Flow<MediaLineData>
+        suspend fun requirePaginate(
+            data: MediaLineData,
+            func: suspend (MediaLineData, Boolean) -> Unit
+        )
     }
 }
-
-
-/*
-val layoutManager = LinearLayoutManager(this.requireContext())
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = ExploreMediaRVAdapter()
-
-        binding.recyclerView.addItemDecoration(CenteredRVDecorator())
- */

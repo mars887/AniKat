@@ -17,9 +17,7 @@ class MediaLineOnScrollListener(
 
         println("$visibleItemCount   $totalItemCount   $firstVisibleItemPosition")
 
-        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-            && firstVisibleItemPosition >= 0
-        ) {
+        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
             requestPaginate()
         }
     }

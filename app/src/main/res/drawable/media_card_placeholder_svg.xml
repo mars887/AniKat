@@ -1,0 +1,30 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="main"
+    android:width="300dp"
+    android:height="450dp"
+    android:viewportWidth="300"
+    android:viewportHeight="450">
+    <group
+        android:name="needRotate"
+        android:pivotX="150"
+        android:pivotY="225"
+        android:rotation="0">
+        <path
+            android:fillColor="#00000000"
+            android:fillType="nonZero"
+            android:pathData="m110.37,205.5l79.31,0l0,0c10.39,-0 18.81,8.73 18.81,19.49c0,10.76 -8.42,19.49 -18.81,19.49l-79.31,0l0,0c-10.39,0 -18.81,-8.73 -18.81,-19.49c-0,-10.76 8.42,-19.49 18.81,-19.49z"
+            android:strokeWidth="5.64"
+            android:strokeColor="?attr/colorSecondary"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="miter" />
+        <path
+            android:fillColor="#00000000"
+            android:fillType="nonZero"
+            android:pathData="m130.98,265.13l0,-79.31l0,-0c-0,-10.39 8.73,-18.81 19.49,-18.81c10.76,-0 19.49,8.42 19.49,18.81l0,79.31l0,-0c0,10.39 -8.73,18.81 -19.49,18.81c-10.76,0 -19.49,-8.42 -19.49,-18.81z"
+            android:strokeWidth="5.64"
+            android:strokeColor="?attr/colorSecondary"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="miter" />
+    </group>
+
+</vector>

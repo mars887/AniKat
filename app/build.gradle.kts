@@ -4,6 +4,7 @@ plugins {
     id("com.apollographql.apollo") version "4.0.0"
     id("androidx.navigation.safeargs.kotlin")
     kotlin("kapt")
+    id("kotlin-parcelize")
 }
 
 android {
