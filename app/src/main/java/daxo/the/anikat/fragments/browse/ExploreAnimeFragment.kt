@@ -7,11 +7,13 @@ import daxo.the.anikat.tests.navigation_test.FragmentsNavigator
 import daxo.the.anikat.type.MediaType
 import javax.inject.Inject
 
-class ExploreAnimeFragment(
-    viewModel: ExploreViewModel,fragmentsNavigator: FragmentsNavigator
-) : ExploreFragment(viewModel,fragmentsNavigator) {
+class ExploreAnimeFragment : ExploreFragment() {
 
     override val mediaType: MediaType
         get() = MediaType.ANIME
+
+    override fun initViewModel(fragmentsNavigator: FragmentsNavigator) {
+        viewModel = fragmentsNavigator.getVM(ExploreViewModel::class,this::class.toString())
+    }
 
 }

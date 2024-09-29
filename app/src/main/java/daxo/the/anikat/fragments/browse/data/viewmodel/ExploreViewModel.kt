@@ -6,14 +6,9 @@ import daxo.the.anikat.fragments.browse.usecases.GetMediaBoardsUseCase
 import daxo.the.anikat.type.MediaType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class ExploreViewModel @Inject constructor(
@@ -23,14 +18,21 @@ class ExploreViewModel @Inject constructor(
 
     fun getData(): SharedFlow<List<MediaLineData>> = data.asSharedFlow()
 
-
-    suspend fun reloadDataFlow(mediaType: MediaType) {
-        println("loading data in EVM")
-        data.emitAll(getMediaBoardsUseCase(mediaType))
+    suspend fun reloadDataFlow(mediaType: MediaType, check: Boolean = true) {
+        if (check && data.replayCache.isEmpty()) {
+            data.emitAll(getMediaBoardsUseCase(mediaType))
+            println("loading data in EVM")
+        } else {
+            println("no loading data in EVM")
+        }
     }
 
-    suspend fun paginateLine(mediaType: MediaType, lineData: MediaLineData): Flow<MediaLineData> {
+    suspend fun paginateLine(
+        mediaType: MediaType,
+        lineData: MediaLineData,
+        func: suspend (MediaLineData,Boolean) -> Unit
+    ) {
         println("paginating line ${lineData.lineName}")
-        return getMediaBoardsUseCase.paginateByTag(mediaType, lineData.tag)
+        getMediaBoardsUseCase.paginateByTag(mediaType, lineData, func)
     }
 }

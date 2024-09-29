@@ -3,8 +3,17 @@ package daxo.the.anikat.core.repo
 import android.util.Log
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.api.Query
+import com.apollographql.apollo.cache.normalized.FetchPolicy
+import com.apollographql.apollo.cache.normalized.fetchPolicy
+import com.apollographql.apollo.cache.normalized.isFromCache
+import com.apollographql.apollo.cache.normalized.watch
 import daxo.the.anikat.FilteredContentPageQuery
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
@@ -16,12 +25,15 @@ class MediaRepo @Inject constructor(
     private var lastRequest: Long = 0
     private val timeoutCheckMutex = Mutex(false)
 
+    private val queryCache = mutableMapOf<Query<*>, Long>()
+    private val cachingTimeout = 15000 // in ms
+
     suspend fun loadContentBy(
         pageConfig: PageConfig,
         params: QueryParams
-    ): List<FilteredContentPageQuery.Medium?>? {
+    ): Flow<Pair<List<FilteredContentPageQuery.Medium?>, Boolean>> {
         timeoutCheckMutex.withLock {
-            while(checkTimeout()) {
+            while (checkTimeout()) {
                 delay(100)
             }
         }
@@ -39,21 +51,24 @@ class MediaRepo @Inject constructor(
             Optional.presentIfNotNull(params.search),
             Optional.presentIfNotNull(params.isAdult)
         )
-        val response = try {
-            apolloClient.query(query).execute()
-        } catch (e: Exception) {
-            Log.e("ApolloClient", "Query execution failed", e)
-            return null
-        }
-
-        if (response.hasErrors()) {
-            response.errors?.forEach {
-                Log.e("ApolloClient", "GraphQL Error: ${it.message}")
+        val timer = queryCache[query]
+        val fetchPolicy =
+            if (timer == null || System.currentTimeMillis() - timer > cachingTimeout) { // TODO test
+                queryCache[query] = System.currentTimeMillis()
+                FetchPolicy.CacheAndNetwork
+            } else {
+                FetchPolicy.CacheFirst
             }
-            return null
-        }
-        Log.d("ApolloClient", "loading completed")
-        return response.data?.Page?.media
+
+        return apolloClient.query(query)
+            .fetchPolicy(fetchPolicy)
+            .failFastIfOffline(true)
+            .toFlow()
+            .filter {
+                it.data?.Page?.media != null
+            }.map {
+                Pair(it.data?.Page?.media!!, it.isFromCache)
+            }.filterNotNull()
     }
 
     private fun checkTimeout(): Boolean =

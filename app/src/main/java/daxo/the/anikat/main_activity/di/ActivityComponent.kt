@@ -15,6 +15,7 @@ import daxo.the.anikat.fragments.profile.ProfileFragment
 import daxo.the.anikat.fragments.profile.ProfileModule
 import daxo.the.anikat.fragments.profile.ProfileViewModel
 import daxo.the.anikat.main_activity.MainActivity
+import daxo.the.anikat.tests.navigation_test.FragmentsNavigator
 
 @ActivityScope
 @Subcomponent(
@@ -28,8 +29,8 @@ import daxo.the.anikat.main_activity.MainActivity
 )
 interface ActivityComponent {
     fun inject(mainActivity: MainActivity)
-    fun inject(profileFragment: ProfileFragment)
-    fun inject(exploreFragment: ExploreFragment)
+
+    fun getFragmentsNavigator(): FragmentsNavigator
 
     fun getProfileFragment(): ProfileFragment
     fun getExploreAnimeFragment(): ExploreAnimeFragment

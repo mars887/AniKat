@@ -24,4 +24,6 @@ class ViewModelProvidersModule {
     fun provideMainMediaPageViewModel(): MainMediaPageViewModel {
         return MainMediaPageViewModel()
     }
+
+
 }

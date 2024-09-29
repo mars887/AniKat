@@ -1,11 +1,14 @@
 package daxo.the.anikat.tests.navigation_test
 
+import android.os.Bundle
 import android.util.Log
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModel
 import daxo.the.anikat.R
+import daxo.the.anikat.fragments.browse.ExploreFragment
 import daxo.the.anikat.tests.navigation_test.FragmentRules.BackstackPolicy.*
 import kotlin.reflect.KClass
 
@@ -27,7 +30,7 @@ class FragmentsNavigator(
     private fun findFbK(key: Int): (() -> Fragment)? = ge.find { it.id == key }?.fragmentFactory
     private fun findKbC(klass: Fragment): Int? = ge.find { it.klass.isInstance(klass) }?.id
 
-    fun navigateTo(@IdRes key: Int) {
+    fun navigateTo(@IdRes key: Int, bundle: Bundle? = null) {
         val rules =
             findRbK(key) ?: keyNotFound(key)
         val type =
@@ -36,19 +39,24 @@ class FragmentsNavigator(
             findFbK(key) ?: keyNotFound(key)
 
         when (rules.backstackPolicy) {
-            SINGLE_INSTANCE_CACHING_ANY -> policySINGLE_INSTANCE_CACHING(type, factory)
+            SINGLE_INSTANCE_CACHING_ANY -> policySINGLE_INSTANCE_CACHING(type, factory, bundle)
 
             SINGLE_INSTANCE_CACHING_SINGLE_TOP -> if (!type.isInstance(backstack.last())) {
-                policySINGLE_INSTANCE_CACHING(type, factory)
+                policySINGLE_INSTANCE_CACHING(type, factory, bundle)
             }
 
-            SINGLE_INSTANCE_CLEAR_UPPER -> policySINGLE_INSTANCE_CLEAR_UPPER(type, key, factory)
+            SINGLE_INSTANCE_CLEAR_UPPER -> policySINGLE_INSTANCE_CLEAR_UPPER(
+                type,
+                key,
+                factory,
+                bundle
+            )
 
-            SINGLE_INSTANCE_MOVE_UP -> policySINGLE_INSTANCE_MOVE_UP(type, key, factory)
+            SINGLE_INSTANCE_MOVE_UP -> policySINGLE_INSTANCE_MOVE_UP(type, key, factory, bundle)
 
-            SINGLE_TOP -> policySINGLE_TOP(type, key, factory)
+            SINGLE_TOP -> policySINGLE_TOP(type, key, factory, bundle)
 
-            ANY -> policyANY(key, factory)
+            ANY -> policyANY(key, factory, bundle)
         }
     }
 
@@ -70,17 +78,18 @@ class FragmentsNavigator(
 
     private fun policySINGLE_INSTANCE_CACHING(
         type: KClass<out Fragment>,
-        factory: () -> Fragment
+        factory: () -> Fragment,
+        bundle: Bundle? = null
     ) {
         val finded = fragmentCache[type]
         if (finded != null) {
-            navigate(finded)
+            navigate(finded, bundle)
             backstack.enqueue(finded)
             Log.d(TAG, "policySINGLE_INSTANCE_CACHING: finded: $type $finded")
         } else {
             val fragment = factory()
             fragmentCache[type] = fragment
-            navigate(fragment)
+            navigate(fragment, bundle)
             backstack.enqueue(fragment)
             Log.d(TAG, "policySINGLE_INSTANCE_CACHING: not finded $type $fragment")
         }
@@ -89,15 +98,16 @@ class FragmentsNavigator(
     private fun policySINGLE_INSTANCE_CLEAR_UPPER(
         type: KClass<out Fragment>,
         key: Int,
-        factory: () -> Fragment
+        factory: () -> Fragment,
+        bundle: Bundle? = null
     ) {
         val finded = backstack.findByClass(type)
         if (finded == null) {
-            createNewAndNavigate(key, factory)
+            createNewAndNavigate(key, factory, bundle)
             Log.d(TAG, "policySINGLE_INSTANCE_CLEAR_UPPER: not finded $key")
         } else {
             backstack.dequeueTo(finded)
-            navigate(finded)
+            navigate(finded, bundle)
             Log.d(TAG, "policySINGLE_INSTANCE_CLEAR_UPPER: finded $key $finded")
         }
     }
@@ -105,47 +115,59 @@ class FragmentsNavigator(
     private fun policySINGLE_INSTANCE_MOVE_UP(
         type: KClass<out Fragment>,
         key: Int,
-        factory: () -> Fragment
+        factory: () -> Fragment,
+        bundle: Bundle? = null
     ) {
         val finded = backstack.findByClass(type)
         if (finded == null) {
-            createNewAndNavigate(key, factory)
+            createNewAndNavigate(key, factory, bundle)
         } else {
             backstack.moveToEnd(finded)
-            navigate(finded)
+            navigate(finded, bundle)
         }
     }
 
     private fun policySINGLE_TOP(
         type: KClass<out Fragment>,
         key: Int,
-        factory: () -> Fragment
+        factory: () -> Fragment,
+        bundle: Bundle? = null
     ) {
         if (!type.isInstance(backstack.last())) {
-            createNewAndNavigate(key, factory)
+            createNewAndNavigate(key, factory, bundle)
         }
     }
 
-    private fun policyANY(key: Int, factory: () -> Fragment) {
-        createNewAndNavigate(key, factory)
+    private fun policyANY(
+        key: Int,
+        factory: () -> Fragment,
+        bundle: Bundle? = null
+    ) {
+        createNewAndNavigate(key, factory, bundle)
     }
 
 
-    private fun navigate(fragment: Fragment) {
+    private fun navigate(fragment: Fragment, bundle: Bundle? = null) {
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.navHostFragmentContainerView,
                 fragment
             ).commit()
+        fragment.arguments = bundle
     }
 
-    private fun createNewAndNavigate(key: Int, factory: () -> Fragment): Fragment {
+    private fun createNewAndNavigate(
+        key: Int,
+        factory: () -> Fragment,
+        bundle: Bundle? = null
+    ): Fragment {
         val fragment = factory()
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.navHostFragmentContainerView,
                 fragment
             ).commit()
+        fragment.arguments = bundle
         backstack.enqueue(fragment)
         return fragment
     }

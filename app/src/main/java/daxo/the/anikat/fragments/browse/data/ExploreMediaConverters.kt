@@ -19,10 +19,12 @@ internal fun List<FilteredContentPageQuery.Medium?>.convertToMediaLineDataNamed(
         cards += MediaCardData(
             mediaType = mediaType,
             mediaId = it.id,
-            title = it.title?.get(titleType) ?: "",
+            title = it.title?.get(titleType)
+                ?: it.title?.get(TitleType.ROMAJI)
+                ?: it.title?.get(TitleType.NATIVE) ?: "",
             episodes = it.episodes.toString(),
             genres = it.genres?.filterNotNull() ?: emptyList(),
-            averageScore = it.averageScore.toString(),
+            averageScore = (it.averageScore ?: "").toString(),
             favorites = it.favourites ?: 0,
             seasonYear = it.seasonYear ?: 0,
             coverImageLink = it.coverImage?.extraLarge ?: ""

@@ -14,21 +14,24 @@ import daxo.the.anikat.fragments.browse.data.entity.MediaLineData
 import daxo.the.anikat.fragments.browse.data.viewmodel.ExploreViewModel
 import daxo.the.anikat.fragments.browse.util.decorator.CenteredRVDecorator
 import daxo.the.anikat.fragments.browse.util.recview.ExploreMediaRVAdapter
+import daxo.the.anikat.main_activity.MainActivity
 import daxo.the.anikat.tests.navigation_test.FragmentsNavigator
 import daxo.the.anikat.type.MediaType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-abstract class ExploreFragment(
-    val viewModel: ExploreViewModel,
-    var fragmentsNavigator: FragmentsNavigator
-) : Fragment() {
+abstract class ExploreFragment : Fragment() {
 
     abstract val mediaType: MediaType
 
     private var _binding: FragmentExploreBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var fragmentsNavigator: FragmentsNavigator
+    lateinit var viewModel: ExploreViewModel
 
 
     override fun onCreateView(
@@ -39,8 +42,11 @@ abstract class ExploreFragment(
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initAll()
 
         initRVAdapter()
 
@@ -73,6 +79,14 @@ abstract class ExploreFragment(
         }
     }
 
+    private fun initAll() {
+        val component = (requireActivity() as MainActivity).activityComponent
+        fragmentsNavigator = component.getFragmentsNavigator()
+        initViewModel(fragmentsNavigator)
+    }
+
+    abstract fun initViewModel(fragmentsNavigator: FragmentsNavigator)
+
     private fun initRVAdapter() {
         val layoutManager =
             LinearLayoutManager(this.requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -81,6 +95,15 @@ abstract class ExploreFragment(
         val interactListener = object : ExploreMediaRVAdapter.ExploreMediaRVAdapterListener {
             override fun mediaLineClicked(dataLineData: MediaLineData) {
                 println("media line with name ${dataLineData.lineName} clicked")
+
+                // test print media id with count
+                println(
+                    dataLineData.data
+                        .groupBy { it.mediaId }
+                        .map { "${it.key} - ${it.value.size}" }
+                        .joinToString(separator = "\n")
+                )
+
             }
 
             override fun mediaItemClicked(
@@ -88,11 +111,16 @@ abstract class ExploreFragment(
                 mediaCardData: MediaCardData,
                 position: Int
             ) {
-                fragmentsNavigator.navigateTo(R.id.mainMediaPageFragment)
+                val bundle = Bundle()
+                bundle.putParcelable("MediaCardData", mediaCardData)
+                fragmentsNavigator.navigateTo(R.id.mainMediaPageFragment, bundle) // TODO
             }
 
-            override suspend fun requirePaginate(data: MediaLineData): Flow<MediaLineData> {
-                return viewModel.paginateLine(mediaType, data)
+            override suspend fun requirePaginate(
+                data: MediaLineData,
+                func: suspend (MediaLineData, Boolean) -> Unit
+            ) {
+                viewModel.paginateLine(mediaType, data, func)
             }
 
         }
@@ -108,6 +136,5 @@ abstract class ExploreFragment(
             resources.getDimensionPixelSize(R.dimen.exploreFragmentSearchViewHeight)
 
         binding.recyclerView.addItemDecoration(CenteredRVDecorator(searchBarHeight, bottomMargin))
-
     }
 }

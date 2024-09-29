@@ -1,9 +1,12 @@
 package daxo.the.anikat.fragments.browse.data.entity
 
+import android.os.Parcelable
 import daxo.the.anikat.type.MediaType
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class MediaCardData(
-    val mediaType: MediaType,
+    val mediaType: MediaType, // enum class
     val mediaId: Int,
     val title: String,
     val episodes: String,
@@ -12,7 +15,8 @@ data class MediaCardData(
     val favorites: Int,
     val seasonYear: Int,
     val coverImageLink: String
-) {
+) : Parcelable {
+
     override fun equals(other: Any?): Boolean {
         return other is MediaCardData && other.mediaId == mediaId
     }

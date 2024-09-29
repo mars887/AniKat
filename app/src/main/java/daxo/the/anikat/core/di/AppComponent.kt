@@ -25,6 +25,8 @@ import javax.inject.Singleton
         ViewModelFactoryModule::class,
         AppModule::class,
         ApolloModule::class,
+    ], dependencies = [
+
     ]
 )
 interface AppComponent : AndroidInjector<App> {

@@ -2,7 +2,7 @@ package daxo.the.anikat.fragments.browse.data.entity
 
 data class MediaLineData(
     val lineName: String,
-    val data: MutableList<MediaCardData>,
+    var data: MutableList<MediaCardData>,
     val tag: ExploreMediaPagesInfo.MediaTypes,
 ) {
     override fun equals(other: Any?): Boolean {
