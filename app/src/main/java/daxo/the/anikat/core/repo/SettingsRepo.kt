@@ -5,6 +5,5 @@ import javax.inject.Inject
 
 
 class SettingsRepo @Inject constructor() {
-
     fun getTitleLanguage(): TitleType = TitleType.ENGLISH
 }

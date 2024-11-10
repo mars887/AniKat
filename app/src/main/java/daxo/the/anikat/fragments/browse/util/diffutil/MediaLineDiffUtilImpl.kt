@@ -19,7 +19,7 @@ class MediaLineDiffUtilImpl(
         contentsSame(oldList[oldItemPosition], newList[newItemPosition])
 
 
-    private fun itemsSame(old: MediaCardData, new: MediaCardData): Boolean = (old == new)
+    private fun itemsSame(old: MediaCardData, new: MediaCardData): Boolean = (old.mediaId == new.mediaId)
 
     private fun contentsSame(old: MediaCardData, new: MediaCardData): Boolean {
         return old == new

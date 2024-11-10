@@ -1,28 +1,21 @@
 package daxo.the.anikat.fragments.profile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import dagger.android.support.DaggerFragment
-import daxo.the.anikat.App
-import daxo.the.anikat.R
-import daxo.the.anikat.core.viewModels.ViewModelProviderFactory
+import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.databinding.FragmentProfileBinding
-import daxo.the.anikat.fragments.browse.data.viewmodel.ExploreViewModel
-import daxo.the.anikat.main_activity.MainActivity
-import daxo.the.anikat.tests.navigation_test.FragmentsNavigator
 import javax.inject.Inject
 
-class ProfileFragment(
-    val viewModel: ProfileViewModel
-) : Fragment() {
+@AndroidEntryPoint
+class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
+    //@Inject lateinit var viewModel: ProfileViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +27,6 @@ class ProfileFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
     }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.R
 import daxo.the.anikat.databinding.FragmentExploreBinding
 import daxo.the.anikat.fragments.browse.data.entity.MediaCardData
@@ -15,13 +16,12 @@ import daxo.the.anikat.fragments.browse.data.viewmodel.ExploreViewModel
 import daxo.the.anikat.fragments.browse.util.decorator.CenteredRVDecorator
 import daxo.the.anikat.fragments.browse.util.recview.ExploreMediaRVAdapter
 import daxo.the.anikat.main_activity.MainActivity
-import daxo.the.anikat.tests.navigation_test.FragmentsNavigator
 import daxo.the.anikat.type.MediaType
-import kotlinx.coroutines.flow.Flow
+import jp.wasabeef.recyclerview.animators.FadeInUpAnimator
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
+@AndroidEntryPoint
 abstract class ExploreFragment : Fragment() {
 
     abstract val mediaType: MediaType
@@ -29,10 +29,7 @@ abstract class ExploreFragment : Fragment() {
     private var _binding: FragmentExploreBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var fragmentsNavigator: FragmentsNavigator
-    lateinit var viewModel: ExploreViewModel
-
+    abstract val viewModel: ExploreViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,11 +39,8 @@ abstract class ExploreFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initAll()
 
         initRVAdapter()
 
@@ -56,36 +50,20 @@ abstract class ExploreFragment : Fragment() {
                 viewModel.reloadDataFlow(mediaType)
             }
             viewModel.getData().collect { input ->
-                println("collected trigered ")
                 adapter.data = input
             }
         }
 
         initRecyclerViewDecoration()
 
-//        val snapHelper = LinearSnapHelper()
-//        snapHelper.attachToRecyclerView(binding.recyclerView)
-
         binding.searchView.setOnClickListener {
             binding.searchView.isIconified = false
-        }
-
-        binding.testFloating1.setOnClickListener {
-            //  fragmentsNavigator.navigateTo(R.id.profileFragment)
         }
 
         binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) binding.testFloating1.hide() else binding.testFloating1.show()
         }
     }
-
-    private fun initAll() {
-        val component = (requireActivity() as MainActivity).activityComponent
-        fragmentsNavigator = component.getFragmentsNavigator()
-        initViewModel(fragmentsNavigator)
-    }
-
-    abstract fun initViewModel(fragmentsNavigator: FragmentsNavigator)
 
     private fun initRVAdapter() {
         val layoutManager =
@@ -94,16 +72,12 @@ abstract class ExploreFragment : Fragment() {
 
         val interactListener = object : ExploreMediaRVAdapter.ExploreMediaRVAdapterListener {
             override fun mediaLineClicked(dataLineData: MediaLineData) {
-                println("media line with name ${dataLineData.lineName} clicked")
-
-                // test print media id with count
                 println(
                     dataLineData.data
                         .groupBy { it.mediaId }
                         .map { "${it.key} - ${it.value.size}" }
                         .joinToString(separator = "\n")
                 )
-
             }
 
             override fun mediaItemClicked(
@@ -111,9 +85,7 @@ abstract class ExploreFragment : Fragment() {
                 mediaCardData: MediaCardData,
                 position: Int
             ) {
-                val bundle = Bundle()
-                bundle.putParcelable("MediaCardData", mediaCardData)
-                fragmentsNavigator.navigateTo(R.id.mainMediaPageFragment, bundle) // TODO
+                (requireActivity() as MainActivity).cardClicked(mediaCardData)
             }
 
             override suspend fun requirePaginate(
@@ -136,5 +108,11 @@ abstract class ExploreFragment : Fragment() {
             resources.getDimensionPixelSize(R.dimen.exploreFragmentSearchViewHeight)
 
         binding.recyclerView.addItemDecoration(CenteredRVDecorator(searchBarHeight, bottomMargin))
+        binding.recyclerView.itemAnimator = FadeInUpAnimator().apply {
+            moveDuration = 300
+            addDuration = 300
+            changeDuration = 300
+            removeDuration = 300
+        }
     }
 }

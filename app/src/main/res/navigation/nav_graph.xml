@@ -24,4 +24,8 @@
         android:id="@+id/mainMediaPageFragment"
         android:name="daxo.the.anikat.fragments.mediapage.MainMediaPageFragment"
         android:label="fragment_main_media_page" />
+    <fragment
+        android:id="@+id/mediaHistoryFragment"
+        android:name="daxo.the.anikat.fragments.mediaviewinghistory.MediaHistoryFragment"
+        android:label="fragment_media_history" />
 </navigation>

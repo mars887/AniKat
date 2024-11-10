@@ -13,14 +13,26 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import daxo.the.anikat.App
+import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.R
 import daxo.the.anikat.databinding.ActivityMainBinding
-import daxo.the.anikat.main_activity.di.ActivityComponent
-import daxo.the.anikat.main_activity.di.FragmentsNavigatorModule
-import daxo.the.anikat.tests.navigation_test.FragmentsNavigator
+import daxo.the.anikat.fragments.browse.ExploreAnimeFragment
+import daxo.the.anikat.fragments.browse.ExploreMangaFragment
+import daxo.the.anikat.fragments.browse.data.entity.MediaCardData
+import daxo.the.anikat.fragments.profile.ProfileFragment
+import daxo.the.navigation.BackstackList
+import daxo.the.navigation.simpletest.NavController2
+import daxo.the.navigation.simpletest.NavController2Factory
+import daxo.the.navigation.simpletest.NavigationHelper
+import daxo.the.navigation.simpletest.toHelper
+import java.lang.Exception
+import java.util.Scanner
 import javax.inject.Inject
+import kotlin.concurrent.thread
+import kotlin.system.exitProcess
 
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
@@ -28,27 +40,15 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
-    private val TAG = "MainActivity"
-
-    lateinit var activityComponent: ActivityComponent
-
     @Inject
-    lateinit var fragmentsNavigator: FragmentsNavigator
+    lateinit var navController2Factory: NavController2Factory
+    private lateinit var navigationHelper: NavigationHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        activityComponent = App.instance.appComponent.activityComponent(
-            FragmentsNavigatorModule(
-                supportFragmentManager,
-                this
-            )
-        )
-        activityComponent.inject(this)
-
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -59,7 +59,24 @@ class MainActivity : AppCompatActivity() {
         initBottomNavigation()
         initOnBackPressed()
 
-        fragmentsNavigator.navigateTo(R.id.exploreAnimeFragment)
+
+        navController = getNavController()
+
+        navigationHelper = getNavigationHelper()
+    }
+
+    private fun getNavigationHelper(): NavigationHelper =
+        navController2Factory.create(
+            R.id.navHostFragmentContainerView,
+            BackStackNames.EXPLORE_ANIME.key,
+            backstacks,
+            supportFragmentManager,
+            navController
+        ).toHelper()
+
+    private fun getNavController(): NavController {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragmentContainerView) as NavHostFragment
+        return navHostFragment.navController
     }
 
     override fun onStart() {
@@ -70,59 +87,42 @@ class MainActivity : AppCompatActivity() {
     private fun initOnBackPressed() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-
-                if (fragmentsNavigator.onBackPressed()) {
-                    onBackPressedDispatcher.onBackPressed()
-                }
+                if (!navigationHelper.popBackStack()) finish()
             }
         })
     }
 
     private fun clickToAnimeExplore() {
-
-        fragmentsNavigator.navigateTo(R.id.exploreAnimeFragment)
+        navigationHelper.switchBackStack(BackStackNames.EXPLORE_ANIME.key)
     }
 
     private fun clickToMangaExplore() {
-
-        fragmentsNavigator.navigateTo(R.id.exploreMangaFragment)
+        navigationHelper.switchBackStack(BackStackNames.EXPLORE_MANGA.key)
     }
 
     private fun clickToProfile() {
-        fragmentsNavigator.navigateTo(R.id.profileFragment)
+        navigationHelper.switchBackStack(BackStackNames.PROFILE.key)
     }
 
     private fun initBottomNavigation() {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.mainNavBarMenuExploreAnime -> {
-
                     clickToAnimeExplore()
-
-                    Log.d(TAG, "initBottomNavigation: clicked explore anime")
                     true
                 }
 
                 R.id.mainNavBarMenuExploreManga -> {
-
                     clickToMangaExplore()
-
-                    Log.d(TAG, "initBottomNavigation: clicked explore manga")
                     true
                 }
 
                 R.id.mainNavBarMenuProfile -> {
-
                     clickToProfile()
-
-                    Log.d(TAG, "initBottomNavigation: clicked profile")
                     true
                 }
 
-                else -> {
-                    Log.d(TAG, "initBottomNavigation: clicked unexpected")
-                    false
-                }
+                else -> false
             }
         }
     }
@@ -149,6 +149,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    fun cardClicked(mediaCardData: MediaCardData) {
+        val bundle = Bundle()
+        bundle.putParcelable("MediaCardData", mediaCardData)
+        navigationHelper.navigate(R.id.mainMediaPageFragment, bundle)
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
+
+        private val backstacks = mapOf(
+            BackStackNames.EXPLORE_ANIME.key to R.id.exploreAnimeFragment,
+            BackStackNames.EXPLORE_MANGA.key to R.id.exploreMangaFragment,
+            BackStackNames.PROFILE.key to R.id.profileFragment,
+        )
     }
 
 }

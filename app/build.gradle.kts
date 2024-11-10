@@ -1,20 +1,21 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.apollographql.apollo") version "4.0.0"
+    id("com.apollographql.apollo") version "4.1.0"
     id("androidx.navigation.safeargs.kotlin")
-    kotlin("kapt")
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
     namespace = "daxo.the.anikat"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "daxo.the.anikat"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -48,7 +49,10 @@ apollo {
     }
 }
 
+
 dependencies {
+    implementation(project(":app:navigation"))        // test navigation
+    implementation(project(":app:domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -63,8 +67,8 @@ dependencies {
     implementation(libs.dagger)
     implementation(libs.dagger.android)
     implementation(libs.dagger.android.support)
-    kapt(libs.dagger.android.processor)
-    kapt(libs.dagger.compiler)
+    ksp(libs.dagger.android.processor)
+    ksp(libs.dagger.compiler)
 
     //glide
     implementation(libs.glide)
@@ -84,8 +88,11 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
 
     //blurry
-    implementation("jp.wasabeef:blurry:4.0.1")
+    implementation(libs.blurry)
 
     // test
+    implementation(libs.recyclerview.animators)
 
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }

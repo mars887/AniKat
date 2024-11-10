@@ -1,24 +1,20 @@
 package daxo.the.anikat.fragments.browse.usecases
 
-import daxo.the.anikat.fragments.browse.data.convertToMediaLineDataNamed
-import daxo.the.anikat.fragments.browse.data.entity.MediaLineData
 import daxo.the.anikat.core.repo.MediaRepo
 import daxo.the.anikat.core.repo.PageConfig.NextPage
 import daxo.the.anikat.core.repo.QueryParams
 import daxo.the.anikat.core.repo.SettingsRepo
+import daxo.the.anikat.fragments.browse.data.convertToMediaLineDataNamed
 import daxo.the.anikat.fragments.browse.data.entity.ExploreMediaPagesInfo
-import daxo.the.anikat.type.MediaSort
+import daxo.the.anikat.fragments.browse.data.entity.MediaLineData
 import daxo.the.anikat.type.MediaType
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.concurrent.thread
+
 
 class GetMediaBoardsUseCase @Inject constructor(
     private val mediaRepo: MediaRepo,
@@ -39,7 +35,6 @@ class GetMediaBoardsUseCase @Inject constructor(
         val titleType = settings.getTitleLanguage()
         val mediaLine =
             mediaContent.pages.find { it.pageKeys[type] == tag } ?: pageByTagNotFound(tag)
-
 
         mediaRepo.loadContentBy(
             pageConfig = NextPage(tag, false),
@@ -66,8 +61,6 @@ class GetMediaBoardsUseCase @Inject constructor(
         val titleType = settings.getTitleLanguage()
         val data = mutableListOf<MediaLineData>()
 
-        println("invoked getMediaBoardsUseCase")
-
         coroutineScope {
             mediaContent.pages.forEach {
                 launch {
@@ -84,21 +77,16 @@ class GetMediaBoardsUseCase @Inject constructor(
                             titleType = titleType,
                             tag = it.pageKeys[type] ?: tagByPageKeysNotFound(it.pageKeys)
                         ).let { lineData ->
-                            var isChanged = false
                             val findex = data.indexOfFirst { it.tag == lineData.tag }
                             if (findex == -1) {
                                 data += lineData
-                                isChanged = true
-                                println("adding data")
                             } else {
-                                isChanged = data[findex] != lineData
+                                val scrollPos = data[findex].scrollPosition
                                 data[findex] = lineData
-                                println("setting data")
+                                data[findex].scrollPosition.set(scrollPos.get())
                             }
-                            if (isChanged) {
-                                println("emitting ${data.map { it.lineName }}")
-                                send(data.toList()) // TODO test
-                            }
+                            //println("emitting ${data.map { it.lineName }}")
+                            send(data.toList()) // TODO test
                         }
                     }
                 }

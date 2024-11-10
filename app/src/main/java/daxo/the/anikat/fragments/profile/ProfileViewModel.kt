@@ -1,9 +1,11 @@
 package daxo.the.anikat.fragments.profile
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(
+//@HiltViewModel
+class ProfileViewModel (
 
 ): ViewModel() {
 
