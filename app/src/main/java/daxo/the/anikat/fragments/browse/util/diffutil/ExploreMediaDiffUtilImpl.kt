@@ -19,7 +19,7 @@ class ExploreMediaDiffUtilImpl(
 
 
     private fun itemsSame(old: MediaLineData, new: MediaLineData): Boolean =
-        (old.lineName == new.lineName && old.tag == new.tag && old.data == new.data)
+        (old.lineName == new.lineName && old.tag == new.tag)
 
     private fun contentsSame(old: MediaLineData, new: MediaLineData): Boolean {
         return (old.lineName == new.lineName && old.tag == new.tag && old.data == new.data)

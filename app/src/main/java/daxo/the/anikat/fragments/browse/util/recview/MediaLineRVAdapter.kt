@@ -27,7 +27,7 @@ class MediaLineRVAdapter(
             field = value
             DiffUtil.calculateDiff(callback)
                 .dispatchUpdatesTo(this)
-            println("media line adapter notified")
+         //   println("media line adapter notified")
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaCardViewHolder {
@@ -73,7 +73,6 @@ class MediaLineRVAdapter(
                     override fun onAnimationEnd(none: Drawable) = drawable.start()
                 })
             }
-
 
             binding.posterImageView.setOnClickListener {
                 interactListener?.mediaItemClicked(lineData,data,position)

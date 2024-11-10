@@ -7,19 +7,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import daxo.the.anikat.R
-import daxo.the.anikat.fragments.browse.data.entity.MediaLineData
-import daxo.the.anikat.fragments.browse.util.diffutil.ExploreMediaDiffUtilImpl
-import daxo.the.anikat.fragments.browse.util.decorator.MediaLineDecorator
 import daxo.the.anikat.databinding.ExploreRvTestItemBinding
-import daxo.the.anikat.fragments.browse.data.entity.ExploreMediaPagesInfo
-import daxo.the.anikat.fragments.browse.data.entity.MediaCardData
+import daxo.the.anikat.fragments.browse.data.entity.*
+import daxo.the.anikat.fragments.browse.util.decorator.MediaLineDecorator
+import daxo.the.anikat.fragments.browse.util.diffutil.ExploreMediaDiffUtilImpl
+import jp.wasabeef.recyclerview.animators.FadeInAnimator
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.coroutines.EmptyCoroutineContext
-
 
 class ExploreMediaRVAdapter(
     private val context: Context,
@@ -32,7 +29,7 @@ class ExploreMediaRVAdapter(
             val callback = ExploreMediaDiffUtilImpl(field, value)
             field = value
             DiffUtil.calculateDiff(callback).dispatchUpdatesTo(this)
-            println("explore adapter notified")
+            //println("EMRV input   " + field.map { "${it.tag}-${it.unic} " }.joinToString(separator = " "))
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaLineViewHolder {
@@ -44,6 +41,7 @@ class ExploreMediaRVAdapter(
     override fun onBindViewHolder(holder: MediaLineViewHolder, position: Int) {
         data[position].let {
             holder.bind(it, context, interactListener)
+            //println("updating bind with ${it.tag}-${it.unic}")
         }
     }
 
@@ -53,6 +51,7 @@ class ExploreMediaRVAdapter(
     class MediaLineViewHolder(val binding: ExploreRvTestItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        private var firstInit = true
         private var lastTag: ExploreMediaPagesInfo.MediaTypes? = null
 
         fun bind(
@@ -64,15 +63,17 @@ class ExploreMediaRVAdapter(
 
             val recyclerView = binding.innerRecyclerView
 
-            if (recyclerView.adapter != null && lastTag == data.tag) {
-                (recyclerView.adapter as MediaLineRVAdapter).data = data
-            } else {
+            //   println("bind ${data.lineName}-${data.tag} -> old tag $lastTag - finit $firstInit")
+
+            if (firstInit) {
+                firstInit = false
                 val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
                 val adapter = MediaLineRVAdapter(interactListener)
 
                 adapter.data = data
                 recyclerView.layoutManager = layoutManager
                 recyclerView.adapter = adapter
+
 
                 if (recyclerView.itemDecorationCount == 0)
                     recyclerView.addItemDecoration(
@@ -84,15 +85,50 @@ class ExploreMediaRVAdapter(
                     )
 
 
-                recyclerView.addOnScrollListener(MediaLineOnScrollListener(layoutManager) {
-                    requestPaginate(interactListener, data, adapter)
-                })
+                initScrollListener(recyclerView, layoutManager, interactListener, data, adapter)
 
                 binding.animeLineTitleView.setOnClickListener {
                     interactListener?.mediaLineClicked(data)
                 }
+
+                recyclerView.itemAnimator = FadeInAnimator().apply {
+                    moveDuration = 500
+                    addDuration = 500
+                    changeDuration = 500
+                    removeDuration = 500
+                }
+                //println("restoring ${layoutManager.findFirstVisibleItemPosition()} ${-data.scrollPosition.get()}")
+                layoutManager.scrollToPosition(data.scrollPosition.get() )
+            } else {
+                //println("pre restore 2")
+                (recyclerView.adapter as MediaLineRVAdapter).data = data
+                if (lastTag != data.tag) {
+                    recyclerView.layoutManager?.let {
+                        //println("restoring ${(it as LinearLayoutManager).findFirstVisibleItemPosition()} ${-data.scrollPosition.get()}")
+                        it.scrollToPosition(data.scrollPosition.get())
+                    }
+                }
+                lastTag = data.tag
             }
         }
+
+        private fun initScrollListener(
+            recyclerView: RecyclerView,
+            layoutManager: LinearLayoutManager,
+            interactListener: ExploreMediaRVAdapterListener?,
+            data: MediaLineData,
+            adapter: MediaLineRVAdapter
+        ) {
+            //println("init scrollListener on ${data.lineName}")
+            recyclerView.clearOnScrollListeners()
+            recyclerView.addOnScrollListener(MediaLineOnScrollListener(layoutManager, {
+                requestPaginate(interactListener, data, adapter)
+            }, {
+                data.scrollPosition.set(layoutManager.findFirstVisibleItemPosition())
+                //   println("saving ${data.scrollPosition}")
+            }))
+        }
+
 
         private fun requestPaginate(
             interactListener: ExploreMediaRVAdapterListener?,
@@ -109,7 +145,12 @@ class ExploreMediaRVAdapter(
                     withContext(Dispatchers.Main) {
 
                         val newLineData =
-                            MediaLineData(response.lineName, mutableListOf(), response.tag)
+                            MediaLineData(
+                                response.lineName,
+                                mutableListOf(),
+                                response.tag,
+                                if (data.tag != ExploreMediaPagesInfo.MediaTypes.EMPTY) data.scrollPosition else adapter.data.scrollPosition
+                            )
                         newLineData.data.addAll(adapter.data.data)
 
                         response.data.forEach { mcd ->

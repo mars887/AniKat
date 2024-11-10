@@ -8,15 +8,19 @@ import com.apollographql.apollo.cache.normalized.normalizedCache
 import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 
 @Module
+@InstallIn(SingletonComponent::class)
 class ApolloModule {
 
     @Singleton
     @Provides
-    fun provideApolloCacheFactory(context: Context): NormalizedCacheFactory {
+    fun provideApolloCacheFactory(@ApplicationContext context: Context): NormalizedCacheFactory {
         val sqlCacheFactory = SqlNormalizedCacheFactory(context, "anikatApolloCache")
         val memoryCacheFactory = MemoryCacheFactory(maxSizeBytes = 10 * 1024 * 1024)
         return memoryCacheFactory.chain(sqlCacheFactory)

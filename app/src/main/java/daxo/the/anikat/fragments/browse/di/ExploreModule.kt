@@ -1,19 +1,17 @@
 package daxo.the.anikat.fragments.browse.di
 
-import androidx.lifecycle.ViewModel
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dagger.multibindings.IntoMap
-import daxo.the.anikat.core.viewModels.ViewModelKey
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.components.SingletonComponent
 import daxo.the.anikat.fragments.browse.data.entity.ExploreMediaPageInfo
 import daxo.the.anikat.fragments.browse.data.entity.ExploreMediaPagesInfo
-import daxo.the.anikat.fragments.browse.data.viewmodel.ExploreViewModel
 import daxo.the.anikat.type.MediaSort
 import daxo.the.anikat.type.MediaType
-import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class ExploreModule {
 
     @Provides

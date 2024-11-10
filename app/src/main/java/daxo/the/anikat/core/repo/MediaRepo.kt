@@ -79,6 +79,6 @@ class MediaRepo @Inject constructor(
 
 
     private companion object {
-        const val REQUEST_TIMEOUT: Int = 900
+        const val REQUEST_TIMEOUT: Int = 600
     }
 }
