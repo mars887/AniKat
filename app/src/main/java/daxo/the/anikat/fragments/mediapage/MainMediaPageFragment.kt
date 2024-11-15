@@ -2,26 +2,26 @@ package daxo.the.anikat.fragments.mediapage
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.databinding.FragmentMainMediaPageBinding
-import daxo.the.anikat.fragments.browse.data.entity.MediaCardData
+import daxo.the.domain.model.media.BasicMediaCard
 
 @AndroidEntryPoint
 class MainMediaPageFragment : Fragment() {
 
     private var _binding: FragmentMainMediaPageBinding? = null
-    val binding get() = _binding!!
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainMediaPageBinding.inflate(layoutInflater,container, false)
+        _binding = FragmentMainMediaPageBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -29,19 +29,19 @@ class MainMediaPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getParcelable<MediaCardData>("MediaCardData")?.let {
-            binding.centeredText.text = """
-                mediaId - ${it.mediaId}
-                title - ${it.title}
-                posterLink - ${it.coverImageLink}
-                scope - ${it.averageScore}
+        val data = arguments?.getString("BasicMediaCard") ?: return
+        val card = BasicMediaCard.parseFromBundleString(data)
+
+        binding.centeredText.text = """
+                mediaId - ${card.mediaId}
+                title - ${card.title}
+                posterLink - ${card.coverImageEL}
+                scope - ${card.averageScope}
             """.trimIndent()
 
-            binding.titleView.text = it.title
-            Glide.with(binding.root)
-                .load(it.coverImageLink)
-                .into(binding.topPosterImage)
-        }
+        binding.titleView.text = card.title
+        Glide.with(binding.root)
+            .load(card.coverImageEL)
+            .into(binding.topPosterImage)
     }
-
 }

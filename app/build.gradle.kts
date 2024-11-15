@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.apollographql.apollo") version "4.1.0"
+    //id("com.apollographql.apollo") version "4.1.0"
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
@@ -43,16 +43,20 @@ android {
     }
 }
 
-apollo {
-    service("service") {
-        packageName.set("daxo.the.anikat")
-    }
-}
+//apollo {
+//    service("service") {
+//        packageName.set("daxo.the.anikat")
+//        srcDir("src/main/graphql/daxo/the/anikat")
+//    }
+//}
 
 
 dependencies {
     implementation(project(":app:navigation"))        // test navigation
     implementation(project(":app:domain"))
+    implementation(project(":app:data"))
+    implementation(project(":app:services"))
+    implementation(project(":app:apollo"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -79,9 +83,9 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
 
     //apollo
-    implementation(libs.apollo.runtime)
-    implementation(libs.apollo.normalized.cache)
-    implementation(libs.apollo.normalized.cache.sqlite)
+//    implementation(libs.apollo.runtime)
+//    implementation(libs.apollo.normalized.cache)
+//    implementation(libs.apollo.normalized.cache.sqlite)
 
     //navigation
     implementation(libs.androidx.navigation.fragment.ktx)

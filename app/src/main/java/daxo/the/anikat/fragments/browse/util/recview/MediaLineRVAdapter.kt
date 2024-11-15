@@ -11,23 +11,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import daxo.the.anikat.R
 import daxo.the.anikat.databinding.MediaCardItemBinding
-import daxo.the.anikat.fragments.browse.data.entity.ExploreMediaPagesInfo
-import daxo.the.anikat.fragments.browse.data.entity.MediaCardData
-import daxo.the.anikat.fragments.browse.data.entity.MediaLineData
-import daxo.the.anikat.fragments.browse.util.diffutil.MediaLineDiffUtilImpl
+import daxo.the.anikat.fragments.browse.data.entity.BasicMediaCardListScrollable
+import daxo.the.anikat.fragments.browse.util.diffutil.BasicMediaCardListDiffUtil
+import daxo.the.domain.model.media.BasicMediaCard
 
 
 class MediaLineRVAdapter(
     private val interactListener: ExploreMediaRVAdapter.ExploreMediaRVAdapterListener?
 ) : RecyclerView.Adapter<MediaLineRVAdapter.MediaCardViewHolder>() {
 
-    var data: MediaLineData = MediaLineData("", mutableListOf(),ExploreMediaPagesInfo.MediaTypes.EMPTY)
+    var data: BasicMediaCardListScrollable? = null
         set(value) {
-            val callback = MediaLineDiffUtilImpl(field.data, value.data)
+            val callback = BasicMediaCardListDiffUtil(field?.basicMediaCardList,value?.basicMediaCardList)
             field = value
             DiffUtil.calculateDiff(callback)
                 .dispatchUpdatesTo(this)
-         //   println("media line adapter notified")
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaCardViewHolder {
@@ -36,35 +34,40 @@ class MediaLineRVAdapter(
         return MediaCardViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = data.data.size
+    override fun getItemCount(): Int = data?.basicMediaCardList?.cards?.size ?: 0
 
     override fun onBindViewHolder(holder: MediaCardViewHolder, position: Int) {
-        data.data[position].let {
-            holder.bind(data, it, interactListener, position)
+        data!!.basicMediaCardList.cards[position].let {
+            holder.bind(data!!, it, interactListener, position)
         }
     }
 
     class MediaCardViewHolder(val binding: MediaCardItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
-            lineData: MediaLineData,
-            data: MediaCardData,
+            cardsList: BasicMediaCardListScrollable,
+            data: BasicMediaCard,
             interactListener: ExploreMediaRVAdapter.ExploreMediaRVAdapterListener?,
             position: Int
         ) {
+            // media title
             binding.titleTextView.text = data.title
-            if(data.averageScore.isBlank()) {
+
+            // trending Counter
+            if(data.averageScope != -1) {
                 binding.trendingCounterView.visibility = View.INVISIBLE
             } else {
                 binding.trendingCounterView.visibility = View.VISIBLE
-                binding.trendingCounterView.text = data.averageScore
+                binding.trendingCounterView.text = data.averageScope.toString()
             }
 
+            // poster image
             Glide.with(binding.root)
-                .load(data.coverImageLink)
+                .load(data.coverImageEL)
                 .placeholder(R.drawable.media_card_placeholder_anim_vector)
                 .into(binding.posterImageView)
 
+            // loading animation
             val drawable = binding.posterImageView.drawable
             if(drawable is AnimatedVectorDrawable) {
                 drawable.start()
@@ -74,8 +77,9 @@ class MediaLineRVAdapter(
                 })
             }
 
+            // open media click listener
             binding.posterImageView.setOnClickListener {
-                interactListener?.mediaItemClicked(lineData,data,position)
+                interactListener?.mediaItemClicked(cardsList,data,position)
             }
         }
     }

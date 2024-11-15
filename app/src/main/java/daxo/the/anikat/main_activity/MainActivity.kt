@@ -2,7 +2,6 @@ package daxo.the.anikat.main_activity
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
@@ -16,20 +15,11 @@ import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.R
 import daxo.the.anikat.databinding.ActivityMainBinding
-import daxo.the.anikat.fragments.browse.ExploreAnimeFragment
-import daxo.the.anikat.fragments.browse.ExploreMangaFragment
-import daxo.the.anikat.fragments.browse.data.entity.MediaCardData
-import daxo.the.anikat.fragments.profile.ProfileFragment
-import daxo.the.navigation.BackstackList
-import daxo.the.navigation.simpletest.NavController2
+import daxo.the.domain.model.media.BasicMediaCard
 import daxo.the.navigation.simpletest.NavController2Factory
 import daxo.the.navigation.simpletest.NavigationHelper
 import daxo.the.navigation.simpletest.toHelper
-import java.lang.Exception
-import java.util.Scanner
 import javax.inject.Inject
-import kotlin.concurrent.thread
-import kotlin.system.exitProcess
 
 
 @AndroidEntryPoint
@@ -151,9 +141,9 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    fun cardClicked(mediaCardData: MediaCardData) {
+    fun cardClicked(basicMediaCard: BasicMediaCard) {
         val bundle = Bundle()
-        bundle.putParcelable("MediaCardData", mediaCardData)
+        bundle.putString("BasicMediaCard", basicMediaCard.toBundleString())
         navigationHelper.navigate(R.id.mainMediaPageFragment, bundle)
     }
 

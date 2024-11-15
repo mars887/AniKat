@@ -7,7 +7,7 @@ import daxo.the.data.sqlrepo.dao.MediaViewHistoryDao
 import daxo.the.data.sqlrepo.entity.BasicMediaPageEntity
 import daxo.the.data.sqlrepo.entity.MediaViewHistoryEntity
 
-@Database(entities = [BasicMediaPageEntity::class,MediaViewHistoryEntity::class], version = 1)
+@Database(entities = [BasicMediaPageEntity::class,MediaViewHistoryEntity::class], version = 1, exportSchema = false)
 abstract class MediaPageStorage: RoomDatabase() {
     abstract fun basicMediaCacheDao(): BasicMediaCacheDao
     abstract fun mediaViewHistoryDao(): MediaViewHistoryDao

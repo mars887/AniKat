@@ -1,10 +1,10 @@
 package daxo.the.anikat.fragments.browse
 
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.fragments.browse.data.viewmodel.ExploreViewModel
-import daxo.the.anikat.type.MediaType
-
+import daxo.the.domain.model.media.enums.MediaType
 
 @AndroidEntryPoint
 class ExploreMangaFragment : ExploreFragment() {
