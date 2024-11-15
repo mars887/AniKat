@@ -17,9 +17,8 @@ class MediaLineOnScrollListener(
         val totalItemCount = layoutManager.itemCount
         val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
-        //println("$visibleItemCount   $totalItemCount   $firstVisibleItemPosition")
 
-        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
+        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount - 1) {
             requestPaginate()
         }
     }

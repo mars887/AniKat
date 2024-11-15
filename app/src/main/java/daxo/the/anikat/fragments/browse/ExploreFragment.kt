@@ -1,6 +1,7 @@
 package daxo.the.anikat.fragments.browse
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.R
 import daxo.the.anikat.databinding.FragmentExploreBinding
-import daxo.the.anikat.fragments.browse.data.entity.MediaCardData
-import daxo.the.anikat.fragments.browse.data.entity.MediaLineData
+import daxo.the.anikat.fragments.browse.data.entity.BasicMediaCardListScrollable
 import daxo.the.anikat.fragments.browse.data.viewmodel.ExploreViewModel
-import daxo.the.anikat.fragments.browse.util.decorator.CenteredRVDecorator
+import daxo.the.anikat.fragments.browse.util.decorator.ExploreMediaRVDecorator
 import daxo.the.anikat.fragments.browse.util.recview.ExploreMediaRVAdapter
 import daxo.the.anikat.main_activity.MainActivity
-import daxo.the.anikat.type.MediaType
+import daxo.the.domain.model.media.BasicMediaCard
+import daxo.the.domain.model.media.enums.MediaType
 import jp.wasabeef.recyclerview.animators.FadeInUpAnimator
 import kotlinx.coroutines.launch
 
@@ -42,13 +43,11 @@ abstract class ExploreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRVAdapter()
+        if (viewModel.mediaType == null) viewModel.mediaType = mediaType
 
-        val adapter = binding.recyclerView.adapter as ExploreMediaRVAdapter
+        val adapter = initRVAdapter()
+
         viewModel.viewModelScope.launch {
-            launch {
-                viewModel.reloadDataFlow(mediaType)
-            }
             viewModel.getData().collect { input ->
                 adapter.data = input
             }
@@ -65,54 +64,65 @@ abstract class ExploreFragment : Fragment() {
         }
     }
 
-    private fun initRVAdapter() {
-        val layoutManager =
-            LinearLayoutManager(this.requireContext(), LinearLayoutManager.VERTICAL, false)
+    /* --- INITIALIZING RV ADAPTER --- */
+
+    private fun initRVAdapter(): ExploreMediaRVAdapter {
+        val layoutManager = LinearLayoutManager(this.requireContext(), LinearLayoutManager.VERTICAL, false)
         val adapter = ExploreMediaRVAdapter(this.requireContext())
 
         val interactListener = object : ExploreMediaRVAdapter.ExploreMediaRVAdapterListener {
-            override fun mediaLineClicked(dataLineData: MediaLineData) {
-                println(
-                    dataLineData.data
-                        .groupBy { it.mediaId }
-                        .map { "${it.key} - ${it.value.size}" }
-                        .joinToString(separator = "\n")
-                )
+            override fun mediaLineClicked(dataLineData: BasicMediaCardListScrollable) {
+                mediaLineClickedAction()
             }
 
-            override fun mediaItemClicked(
-                data: MediaLineData,
-                mediaCardData: MediaCardData,
-                position: Int
-            ) {
-                (requireActivity() as MainActivity).cardClicked(mediaCardData)
+            override fun mediaItemClicked(data: BasicMediaCardListScrollable, mediaCardData: BasicMediaCard, position: Int) {
+                mediaCardClickedAction(mediaCardData)
             }
 
-            override suspend fun requirePaginate(
-                data: MediaLineData,
-                func: suspend (MediaLineData, Boolean) -> Unit
-            ) {
-                viewModel.paginateLine(mediaType, data, func)
+            override fun requirePaginate(data: BasicMediaCardListScrollable) {
+                requirePaginateAction(data)
             }
 
         }
+
         adapter.interactListener = interactListener
 
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter
+
+        return adapter
     }
+
+    /* --- MEDIA ACTIONS --- */
+
+    private fun mediaLineClickedAction() {
+        //TODO("Not yet implemented")
+    }
+
+    private fun requirePaginateAction(data: BasicMediaCardListScrollable) {
+        viewModel.paginateMediaList(data)
+    }
+
+    private fun mediaCardClickedAction(mediaCardData: BasicMediaCard) {
+        (requireActivity() as MainActivity).cardClicked(mediaCardData)
+    }
+
+    /* --- RECYCLER VIEW DECORATION --- */
 
     private fun initRecyclerViewDecoration() {
         val bottomMargin = resources.getDimensionPixelSize(R.dimen.exploreFragmentBaseMargin)
-        val searchBarHeight =
-            resources.getDimensionPixelSize(R.dimen.exploreFragmentSearchViewHeight)
+        val searchBarHeight = resources.getDimensionPixelSize(R.dimen.exploreFragmentSearchViewHeight)
 
-        binding.recyclerView.addItemDecoration(CenteredRVDecorator(searchBarHeight, bottomMargin))
+        binding.recyclerView.addItemDecoration(ExploreMediaRVDecorator(searchBarHeight, bottomMargin))
         binding.recyclerView.itemAnimator = FadeInUpAnimator().apply {
             moveDuration = 300
             addDuration = 300
             changeDuration = 300
             removeDuration = 300
         }
+    }
+
+    companion object {
+        private const val TAG = "ExploreFragment"
     }
 }

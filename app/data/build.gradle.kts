@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
-    id("com.apollographql.apollo") version "4.1.0"
+
 }
 
 android {
@@ -35,8 +35,6 @@ android {
     }
 }
 
-
-
 dependencies {
 
     implementation(project(":app:domain"))
@@ -54,8 +52,4 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
-    implementation(libs.apollo.runtime)
-    implementation(libs.apollo.normalized.cache)
-    implementation(libs.apollo.normalized.cache.sqlite)
 }

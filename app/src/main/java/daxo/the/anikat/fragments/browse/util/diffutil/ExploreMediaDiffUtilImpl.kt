@@ -1,27 +1,32 @@
 package daxo.the.anikat.fragments.browse.util.diffutil
 
 import androidx.recyclerview.widget.DiffUtil
-import daxo.the.anikat.fragments.browse.data.entity.MediaLineData
+import daxo.the.anikat.fragments.browse.data.entity.BasicMediaCardListScrollable
 
 class ExploreMediaDiffUtilImpl(
-    private val oldList: List<MediaLineData>,
-    private val newList: List<MediaLineData>,
+    private val oldList: List<BasicMediaCardListScrollable>,
+    private val newList: List<BasicMediaCardListScrollable>,
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size
     override fun getNewListSize(): Int = newList.size
 
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        itemsSame(oldList[oldItemPosition], newList[newItemPosition])
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].basicMediaCardList.listName == newList[newItemPosition].basicMediaCardList.listName
+    }
 
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        contentsSame(oldList[oldItemPosition], newList[newItemPosition])
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].basicMediaCardList.cards == newList[newItemPosition].basicMediaCardList.cards
+    }
 
+    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any {
+        val oldElement = oldList[oldItemPosition]
+        val newElement = newList[newItemPosition]
 
-    private fun itemsSame(old: MediaLineData, new: MediaLineData): Boolean =
-        (old.lineName == new.lineName && old.tag == new.tag)
-
-    private fun contentsSame(old: MediaLineData, new: MediaLineData): Boolean {
-        return (old.lineName == new.lineName && old.tag == new.tag && old.data == new.data)
+        val changes = StringBuilder()
+        if(oldElement.basicMediaCardList.cards != newElement.basicMediaCardList.cards) changes.append("cards")
+        if(oldElement.basicMediaCardList.listName != newElement.basicMediaCardList.listName) changes.append("lineName")
+        if(oldElement.basicMediaCardList.requestData != newElement.basicMediaCardList.requestData) changes.append("requestData")
+        return changes.toString()
     }
 }
