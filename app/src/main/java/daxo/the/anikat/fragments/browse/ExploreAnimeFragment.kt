@@ -4,7 +4,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.fragments.browse.data.viewmodel.ExploreViewModel
-import daxo.the.domain.model.media.enums.MediaType
+import daxo.core.model.media.enums.MediaType
 
 @AndroidEntryPoint
 class ExploreAnimeFragment : ExploreFragment() {

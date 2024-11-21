@@ -1,10 +1,10 @@
 package daxo.the.data.api.explore
 
 import android.util.Log
-import daxo.the.domain.model.media.enums.MediaFormat
-import daxo.the.domain.model.media.enums.MediaSeason
-import daxo.the.domain.model.media.enums.MediaSort
-import daxo.the.domain.model.media.enums.MediaType
+import daxo.core.model.media.enums.MediaFormat
+import daxo.core.model.media.enums.MediaSeason
+import daxo.core.model.media.enums.MediaSort
+import daxo.core.model.media.enums.MediaType
 
 data class LoadMediaPagesParams(
     var page: Int = -1,

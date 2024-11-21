@@ -10,19 +10,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import daxo.the.anikat.R
-import daxo.the.anikat.databinding.MediaCardItemBinding
-import daxo.the.anikat.fragments.browse.data.entity.BasicMediaCardListScrollable
+import daxo.the.anikat.databinding.VerticalBasicMediaCardBinding
+import daxo.the.anikat.fragments.browse.data.entity.ExtendedMediaCardListScrollable
 import daxo.the.anikat.fragments.browse.util.diffutil.BasicMediaCardListDiffUtil
-import daxo.the.domain.model.media.BasicMediaCard
+import daxo.core.model.media.ExtendedMediaCard
 
 
 class MediaLineRVAdapter(
     private val interactListener: ExploreMediaRVAdapter.ExploreMediaRVAdapterListener?
 ) : RecyclerView.Adapter<MediaLineRVAdapter.MediaCardViewHolder>() {
 
-    var data: BasicMediaCardListScrollable? = null
+    var data: ExtendedMediaCardListScrollable? = null
         set(value) {
-            val callback = BasicMediaCardListDiffUtil(field?.basicMediaCardList,value?.basicMediaCardList)
+            val callback = BasicMediaCardListDiffUtil(field?.extendedMediaCardList,value?.extendedMediaCardList)
             field = value
             DiffUtil.calculateDiff(callback)
                 .dispatchUpdatesTo(this)
@@ -30,42 +30,45 @@ class MediaLineRVAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaCardViewHolder {
         val binding =
-            MediaCardItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            VerticalBasicMediaCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MediaCardViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = data?.basicMediaCardList?.cards?.size ?: 0
+    override fun getItemCount(): Int = data?.extendedMediaCardList?.cards?.size ?: 0
 
     override fun onBindViewHolder(holder: MediaCardViewHolder, position: Int) {
-        data!!.basicMediaCardList.cards[position].let {
+        data!!.extendedMediaCardList.cards[position].let {
             holder.bind(data!!, it, interactListener, position)
         }
     }
 
-    class MediaCardViewHolder(val binding: MediaCardItemBinding) :
+    class MediaCardViewHolder(val binding: VerticalBasicMediaCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
-            cardsList: BasicMediaCardListScrollable,
-            data: BasicMediaCard,
+            cardsList: ExtendedMediaCardListScrollable,
+            data: ExtendedMediaCard,
             interactListener: ExploreMediaRVAdapter.ExploreMediaRVAdapterListener?,
             position: Int
         ) {
             // media title
-            binding.titleTextView.text = data.title
+            binding.titleTextView.text = data.title?.english
 
             // trending Counter
-            if(data.averageScope != -1) {
+            if(data.averageScore != -1) {
                 binding.trendingCounterView.visibility = View.INVISIBLE
             } else {
                 binding.trendingCounterView.visibility = View.VISIBLE
-                binding.trendingCounterView.text = data.averageScope.toString()
+                binding.trendingCounterView.text = data.averageScore.toString()
             }
 
             // poster image
-            Glide.with(binding.root)
-                .load(data.coverImageEL)
-                .placeholder(R.drawable.media_card_placeholder_anim_vector)
-                .into(binding.posterImageView)
+            data.coverImage?.large?.let {
+                Glide.with(binding.root)
+                    .load(it)
+                    .placeholder(R.drawable.media_card_placeholder_anim_vector)
+                    .into(binding.posterImageView)
+            }
+
 
             // loading animation
             val drawable = binding.posterImageView.drawable

@@ -2,6 +2,7 @@ package daxo.the.anikat.main_activity
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
@@ -15,7 +16,7 @@ import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.R
 import daxo.the.anikat.databinding.ActivityMainBinding
-import daxo.the.domain.model.media.BasicMediaCard
+import daxo.core.model.media.ExtendedMediaCard
 import daxo.the.navigation.simpletest.NavController2Factory
 import daxo.the.navigation.simpletest.NavigationHelper
 import daxo.the.navigation.simpletest.toHelper
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigationHelper: NavigationHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        super.onCreate(null)
         enableEdgeToEdge()
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -112,6 +113,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
+                R.id.mainNavBarMenuViewHistory -> {
+                    navigationHelper.switchBackStack(BackStackNames.VIEW_HISTORY.key)
+                    true
+                }
+
                 else -> false
             }
         }
@@ -141,9 +147,10 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    fun cardClicked(basicMediaCard: BasicMediaCard) {
+    fun cardClicked(mediaCard: ExtendedMediaCard) {
         val bundle = Bundle()
-        bundle.putString("BasicMediaCard", basicMediaCard.toBundleString())
+        bundle.putParcelable("ExtendedMediaCard", mediaCard)
+        bundle.putString("key", "key")
         navigationHelper.navigate(R.id.mainMediaPageFragment, bundle)
     }
 
@@ -154,9 +161,9 @@ class MainActivity : AppCompatActivity() {
             BackStackNames.EXPLORE_ANIME.key to R.id.exploreAnimeFragment,
             BackStackNames.EXPLORE_MANGA.key to R.id.exploreMangaFragment,
             BackStackNames.PROFILE.key to R.id.profileFragment,
+            BackStackNames.VIEW_HISTORY.key to R.id.mediaHistoryFragment,
         )
     }
-
 }
 
 /*

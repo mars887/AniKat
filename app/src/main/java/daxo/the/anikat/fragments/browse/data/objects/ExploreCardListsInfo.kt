@@ -1,7 +1,7 @@
 package daxo.the.anikat.fragments.browse.data.objects
 
-import daxo.the.domain.model.media.enums.MediaSort
-import daxo.the.domain.model.media.enums.MediaType
+import daxo.core.model.media.enums.MediaSort
+import daxo.core.model.media.enums.MediaType
 
 object ExploreCardListsInfo {
     val info = mapOf<MediaType,List<ExploreCardListInfo>>(

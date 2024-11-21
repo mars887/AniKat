@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemConstraintLayout"
+        android:layout_width="match_parent"
+        android:background="@color/HBasicMediaCardBackgroundColor"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/posterImageView"
+            android:layout_width="85dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/media_poster_image_desc"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/temp_image_poster" />
+
+        <TextView
+            android:id="@+id/mediaTitle"
+            android:layout_width="0dp"
+            android:padding="@dimen/smallMargin"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ubuntu_medium"
+            android:textColor="@color/HBasicMediaCardTitleColor"
+            android:textSize="13sp"
+            android:background="@color/HBasicMediaCardTitleBackgroundColor"
+            app:layout_constraintStart_toEndOf="@id/posterImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Kanan-sama wa Akumade Choroi" />
+
+
+        <HorizontalScrollView
+            android:id="@+id/InfoScrollView"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:padding="@dimen/smallMargin"
+            android:nestedScrollingEnabled="false"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:scrollbars="none"
+            app:layout_constraintStart_toEndOf="@id/posterImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mediaTitle"
+            app:layout_constraintBottom_toTopOf="@id/genresScrollView" >
+
+            <LinearLayout
+                android:id="@+id/infoLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"/>
+        </HorizontalScrollView>
+
+
+        <HorizontalScrollView
+            android:id="@+id/genresScrollView"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:padding="@dimen/smallMargin"
+            app:layout_constraintStart_toEndOf="@id/posterImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/HBasicMediaCardTitleBackgroundColor"
+            app:layout_constraintBottom_toBottomOf="parent" >
+
+            <LinearLayout
+                android:id="@+id/genresLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"/>
+        </HorizontalScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

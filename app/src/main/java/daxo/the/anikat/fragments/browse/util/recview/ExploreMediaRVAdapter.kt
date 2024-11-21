@@ -11,7 +11,7 @@ import daxo.the.anikat.databinding.ExploreRvTestItemBinding
 import daxo.the.anikat.fragments.browse.data.entity.*
 import daxo.the.anikat.fragments.browse.util.decorator.MediaLineRVDecorator
 import daxo.the.anikat.fragments.browse.util.diffutil.ExploreMediaDiffUtilImpl
-import daxo.the.domain.model.media.BasicMediaCard
+import daxo.core.model.media.ExtendedMediaCard
 import jp.wasabeef.recyclerview.animators.FadeInAnimator
 
 class ExploreMediaRVAdapter(
@@ -22,7 +22,7 @@ class ExploreMediaRVAdapter(
 
     /* --- DATA WITH DIFF UTIL --- */
 
-    var data = listOf<BasicMediaCardListScrollable>()
+    var data = listOf<ExtendedMediaCardListScrollable>()
         set(value) {
             val callback = ExploreMediaDiffUtilImpl(field, value)
             field = value
@@ -49,7 +49,7 @@ class ExploreMediaRVAdapter(
             val payload = payloads[0] as String
 
             if (payload.contains("cards")) holder.updateCards(data[position])
-            if (payload.contains("lineName")) holder.updateLineName(data[position].basicMediaCardList.listName)
+            if (payload.contains("lineName")) holder.updateLineName(data[position].extendedMediaCardList.listName)
         }
     }
 
@@ -63,13 +63,13 @@ class ExploreMediaRVAdapter(
         private lateinit var interactListener: ExploreMediaRVAdapterListener
 
         fun bind(
-            data: BasicMediaCardListScrollable,
+            data: ExtendedMediaCardListScrollable,
             context: Context,
             interactListener: ExploreMediaRVAdapterListener?,
         ) {
             if (interactListener != null) this.interactListener = interactListener
 
-            binding.animeLineTitleView.text = data.basicMediaCardList.listName  // setting list name
+            binding.animeLineTitleView.text = data.extendedMediaCardList.listName  // setting list name
 
             val recyclerView = binding.innerRecyclerView
 
@@ -106,7 +106,7 @@ class ExploreMediaRVAdapter(
             recyclerView: RecyclerView,
             layoutManager: LinearLayoutManager,
             interactListener: ExploreMediaRVAdapterListener?,
-            data: BasicMediaCardListScrollable
+            data: ExtendedMediaCardListScrollable
         ) {
             recyclerView.clearOnScrollListeners()
 
@@ -123,7 +123,7 @@ class ExploreMediaRVAdapter(
             }
         }
 
-        fun updateCards(newCards: BasicMediaCardListScrollable) {
+        fun updateCards(newCards: ExtendedMediaCardListScrollable) {
             adapter.data = newCards
             initScroll(
                 binding.innerRecyclerView,
@@ -139,9 +139,9 @@ class ExploreMediaRVAdapter(
     }
 
     interface ExploreMediaRVAdapterListener {
-        fun mediaLineClicked(dataLineData: BasicMediaCardListScrollable)
-        fun mediaItemClicked(data: BasicMediaCardListScrollable, mediaCardData: BasicMediaCard, position: Int)
-        fun requirePaginate(data: BasicMediaCardListScrollable)
+        fun mediaLineClicked(dataLineData: ExtendedMediaCardListScrollable)
+        fun mediaItemClicked(data: ExtendedMediaCardListScrollable, mediaCardData: ExtendedMediaCard, position: Int)
+        fun requirePaginate(data: ExtendedMediaCardListScrollable)
     }
 
     private companion object {

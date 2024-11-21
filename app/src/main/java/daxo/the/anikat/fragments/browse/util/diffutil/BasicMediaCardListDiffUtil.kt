@@ -1,9 +1,9 @@
 package daxo.the.anikat.fragments.browse.util.diffutil
 
 import androidx.recyclerview.widget.DiffUtil
-import daxo.the.domain.model.media.BasicMediaCardList
+import daxo.core.model.media.ExtendedMediaCardList
 
-class BasicMediaCardListDiffUtil(val oldList: BasicMediaCardList?, val newList: BasicMediaCardList?) : DiffUtil.Callback() {
+class BasicMediaCardListDiffUtil(val oldList: ExtendedMediaCardList?, val newList: ExtendedMediaCardList?) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList?.cards?.size ?: 0
 
     override fun getNewListSize(): Int = newList?.cards?.size ?: 0

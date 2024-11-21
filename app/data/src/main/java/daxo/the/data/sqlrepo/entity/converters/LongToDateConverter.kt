@@ -3,7 +3,7 @@ package daxo.the.data.sqlrepo.entity.converters
 import androidx.room.TypeConverter
 import java.util.Date
 
-class LongToDateConverter {
+object LongToDateConverter {
 
     @TypeConverter
     fun fromDate(date: Date): Long = date.time

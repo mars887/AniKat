@@ -7,6 +7,7 @@ daggerAndroid = "2.52"
 daggerAndroidSupport = "2.52"
 fragmentKtx = "1.8.5"
 glide = "4.16.0"
+gson = "2.10.1"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -17,14 +18,14 @@ kotlinxCoroutinesCore = "1.9.0"
 material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
-navigationUiKtx = "2.8.3"
-navigationFragmentKtx = "2.8.3"
+navigationUiKtx = "2.8.4"
+navigationFragmentKtx = "2.8.4"
 recyclerviewAnimators = "4.0.2"
 jetbrainsKotlinJvm = "2.0.21"
 roomRuntime = "2.6.1"
 hiltAndroid = "2.52"
 hiltCompiler = "2.52"
-navigationCommonKtx = "2.8.3"
+navigationCommonKtx = "2.8.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,9 +46,7 @@ dagger-android-support = { module = "com.google.dagger:dagger-android-support", 
 dagger-android = { module = "com.google.dagger:dagger-android", version.ref = "daggerAndroid" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "daggerAndroid" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }

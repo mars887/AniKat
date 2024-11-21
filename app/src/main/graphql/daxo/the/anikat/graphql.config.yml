@@ -1,5 +1,0 @@
-schema: schema.json
-documents: '**/*.graphql'
-extensions:
-  endpoints:
-    Endpoint: https://graphql.anilist.co

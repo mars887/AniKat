@@ -5,4 +5,6 @@
     <string name="mainNavBarExploreAnimeText">Anime</string>
     <string name="mainNavBarExploreMangaText">Manga</string>
     <string name="mainNavBarProfileText">Profile</string>
+    <string name="mainNavBarViewHistoryText">History</string>
+    <string name="media_poster_image_desc">media poster</string>
 </resources>
