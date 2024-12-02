@@ -1,24 +1,16 @@
 package daxo.the.anikat.fragments.mediapage
 
-import android.app.Application
-import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.savedstate.SavedStateRegistryOwner
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
+import daxo.core.images.ImageInfoModel
 import daxo.core.model.media.ExtendedMediaCard
+import daxo.the.anikat.fragments.dialogs.imaged.ImageShareLoadDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainMediaPageViewModel (
+class MainMediaPageViewModel(
     private val onMediaOpenedUseCase: OnMediaOpenedUseCase,
     private val initialCard: ExtendedMediaCard
 ) : ViewModel() {
@@ -28,12 +20,27 @@ class MainMediaPageViewModel (
             onMediaOpenedUseCase(initialCard)
         }
     }
+
+    fun openImageLongClickMenu(fragment: MainMediaPageFragment, imageInfo: ImageInfoModel) {
+        val dialog = ImageShareLoadDialog.newInstance(imageInfo, fragment as ImageShareLoadDialog.SelectedOptionListener)
+        dialog.show(fragment.parentFragmentManager, null)
+    }
 }
 
 class MainMediaPageViewModelFactoryFactory @Inject constructor(
     private val onMediaOpenedUseCase: OnMediaOpenedUseCase,
 ) {
-    fun create(initialCard: ExtendedMediaCard): MainMediaPageFragment.MainMediaPageViewModelFactory {
-        return MainMediaPageFragment.MainMediaPageViewModelFactory(onMediaOpenedUseCase, initialCard)
+    fun create(initialCard: ExtendedMediaCard): MainMediaPageViewModelFactory {
+        return MainMediaPageViewModelFactory(onMediaOpenedUseCase, initialCard)
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+class MainMediaPageViewModelFactory(
+    private val onMediaOpenedUseCase: OnMediaOpenedUseCase,
+    private val initialMediaCard: ExtendedMediaCard
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return MainMediaPageViewModel(onMediaOpenedUseCase, initialMediaCard) as T
     }
 }

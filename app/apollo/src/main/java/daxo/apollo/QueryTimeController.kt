@@ -14,6 +14,6 @@ class QueryTimeController @Inject constructor(){
     }
 
     companion object {
-        const val QUERY_DELAY = 750
+        const val QUERY_DELAY = 500
     }
 }

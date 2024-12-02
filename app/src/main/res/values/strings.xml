@@ -7,4 +7,7 @@
     <string name="mainNavBarProfileText">Profile</string>
     <string name="mainNavBarViewHistoryText">History</string>
     <string name="media_poster_image_desc">media poster</string>
+    <string name="unloggedFragmentLoginButtonText">login via browser</string>
+    <string name="save_text">Save</string>
+    <string name="share_text">Share</string>
 </resources>

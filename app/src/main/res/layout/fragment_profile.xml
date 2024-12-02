@@ -1,14 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layoutDescription="@xml/fragment_profile_scene"
     tools:context=".fragments.profile.ProfileFragment">
 
-    <TextView
-        android:gravity="center"
+    <ImageView
+        android:id="@+id/bannerImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="profile fragment" />
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="user banner"
+        android:scaleType="fitXY"
+        android:alpha="1.0"
+        tools:src="@drawable/temp_image_media_banner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/avatarZoneBackgroundView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/defaultMargin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/avatarImage"
+        app:layout_constraintTop_toBottomOf="@id/bannerImage">
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/usernameText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/defaultMargin"
+        android:layout_marginTop="@dimen/defaultMargin"
+        android:ellipsize="marquee"
+        android:fontFamily="@font/ubuntu_medium"
+        app:layout_constraintStart_toEndOf="@id/avatarImage"
+        app:layout_constraintTop_toBottomOf="@id/bannerImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:maxLines="1"
+        tools:text="SomeUserName Amogus"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/userAboutText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/defaultMargin"
+        android:paddingStart="@dimen/smallMargin"
+        android:alpha="1.0"
+        android:ellipsize="end"
+        android:fontFamily="@font/ubuntu_medium"
+        android:maxLines="5"
+        tools:text="some about text here, nothing more.\nwhy this, and who\nabobaaaababidwajd"
+        android:textColor="#737373"
+        app:layout_constraintStart_toEndOf="@id/avatarImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/usernameText"
+        android:textSize="11sp" />
+
+    <ImageView
+        android:id="@+id/avatarImage"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/defaultMargin"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:contentDescription="user avatar"
+        tools:src="@drawable/temp_user_avatar"
+        app:layout_constraintBottom_toBottomOf="@id/avatarZoneBackgroundView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/avatarZoneBackgroundView"
+        tools:ignore="HardcodedText" />
+
+    <LinearLayout
+        android:id="@+id/someButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/defaultMargin"
+        android:layout_marginTop="@dimen/defaultMargin"
+        android:alpha="1.0"
+        android:background="@drawable/tag_value_background_shape"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/defaultMargin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatarZoneBackgroundView">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/notificationsFAB"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:contentDescription="notifications"
+            android:src="@drawable/notifications_icon" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/settingsFAB"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:contentDescription="app settings"
+            android:src="@drawable/settings_icon" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/fragmentsScrollLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/defaultMargin"
+        android:background="@drawable/tag_value_background_shape"
+        android:orientation="horizontal"
+        android:paddingBottom="3dp"
+        android:paddingTop="0.5dp"
+        android:paddingHorizontal="2dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/someButtonsLayout">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/smallMargin"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="overview" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/smallMargin"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="anime" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/smallMargin"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="manga" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/smallMargin"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="favorites" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/smallMargin"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="stats" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/smallMargin"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="social" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/smallMargin"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="reviews" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/smallMargin"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="submissions" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <fragment
+        android:id="@+id/fragmentContainer"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/defaultMargin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragmentsScrollLayout" />
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

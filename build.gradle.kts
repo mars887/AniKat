@@ -8,9 +8,6 @@ buildscript {
             url = uri("https://repo1.maven.org/maven2/")
         }
     }
-    dependencies {
-        classpath(libs.androidx.navigation.safe.args.gradle.plugin)
-    }
 }
 
 plugins {

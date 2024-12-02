@@ -1,4 +1,4 @@
-package daxo.the.data.sqlrepo.di
+package daxo.the.data.di
 
 import android.content.Context
 import androidx.room.Room

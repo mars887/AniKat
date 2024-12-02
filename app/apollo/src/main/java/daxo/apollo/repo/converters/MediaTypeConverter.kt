@@ -9,10 +9,10 @@ object MediaTypeConverter {
     }
 
     fun convertToApollo(mediaType: DomainMediaType): ApolloMediaType {
-        return ApolloMediaType.valueOf(mediaType.rawValue)
+        return ApolloMediaType.safeValueOf(mediaType.rawValue)
     }
 
     fun DomainMediaType.toApollo(): ApolloMediaType {
-        return ApolloMediaType.valueOf(this.rawValue)
+        return ApolloMediaType.safeValueOf(this.rawValue)
     }
 }

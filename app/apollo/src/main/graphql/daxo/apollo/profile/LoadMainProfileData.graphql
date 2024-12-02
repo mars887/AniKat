@@ -1,0 +1,22 @@
+query LoadMainProfileData {
+    Viewer {
+        id
+        name
+        about
+        bannerImage
+        unreadNotificationCount
+        siteUrl
+        donatorTier
+        donatorBadge
+        options {
+            titleLanguage
+            displayAdultContent
+            profileColor
+            staffNameLanguage
+        }
+        avatar {
+            large
+            medium
+        }
+    }
+}

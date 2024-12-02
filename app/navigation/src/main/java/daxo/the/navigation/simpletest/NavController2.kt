@@ -21,6 +21,18 @@ class NavController2 @AssistedInject constructor(
     @Assisted private val navController: NavController,
 ) {
 
+    private val fragmentsForSkip: MutableSet<Class<out Fragment>> = mutableSetOf()
+
+    fun addFragmentToSkip(vararg classes: Class<out Fragment>) {
+        fragmentsForSkip.addAll(classes)
+    }
+
+    private val fragmentsForExit: MutableSet<Class<out Fragment>> = mutableSetOf()
+
+    fun addFragmentsToExit(vararg classes: Class<out Fragment>) {
+        fragmentsForExit.addAll(classes)
+    }
+
     private val backstacksList: BackstackList =
         BackstackList(_backstacksList.map { it.key to BackStackInfo(it.key, it.value) }.toMap())
 
@@ -28,7 +40,6 @@ class NavController2 @AssistedInject constructor(
     private val initializedBackstacks = mutableSetOf<String>()
 
     init {
-        fragmentManager.popBackStackImmediate()
         initBackStack(currentBackstack)
     }
 
@@ -68,7 +79,21 @@ class NavController2 @AssistedInject constructor(
     }
 
     fun popBackStack(): Boolean {
-        return fragmentManager.popBackStackImmediate()
+        val result = fragmentManager.popBackStackImmediate1()
+//        if ((fragmentManager.fragments.lastOrNull()?.javaClass as Class<out Fragment>) in fragmentsForExit) return false
+//
+//        while ((fragmentManager.fragments.lastOrNull()?.javaClass as Class<out Fragment>) in fragmentsForSkip) {
+//            val popped = fragmentManager.popBackStackImmediate1()
+//            if (!popped) return false
+//        } todo
+        return result
+    }
+
+    private fun FragmentManager.popBackStackImmediate1(): Boolean {
+        Log.i(TAG, "popBackStackImmediate: ${fragmentManager.fragments.lastOrNull()?.javaClass}")
+        Log.i(TAG, "popBackStackImmediate: ${navController.currentBackStackEntry?.destination?.label}")
+
+        return popBackStackImmediate()
     }
 
     companion object {

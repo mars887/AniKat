@@ -19,7 +19,7 @@ class ExtendedMediaRepoApolloImpl @Inject constructor(
     private val apolloClient: ApolloClient,
     private val queryTimeController: QueryTimeController,
 ):IExtendedMediaRepo {
-    override suspend fun loadPages(params: LoadMediaPagesParams): List<ExtendedMediaCard>? {
+    override suspend fun loadPages(params: LoadMediaPagesParams): List<ExtendedMediaCard> {
         while(queryTimeController.checkTime()) delay(50)
 
         val query = GetMediaExtendedCardFilteredQuery(
@@ -51,7 +51,7 @@ class ExtendedMediaRepoApolloImpl @Inject constructor(
             Log.i(TAG, "loadPages exception: ${it.message}")
         }
 
-        return ApolloResponceConverter.toDomain(
+        return ApolloResponseConverter.toDomain(
             result.data?.Page?.media
         )
     }

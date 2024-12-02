@@ -17,12 +17,13 @@
     <ImageView
         android:id="@+id/topBannerImage"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="140dp"
         android:scaleType="centerCrop"
+        android:alpha="1.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/temp_image_media_banner" />
+        tools:src="@drawable/temp_image_media_banner" />
 
     <View
         android:id="@+id/underBannerBackgroundView"
@@ -40,17 +41,17 @@
         android:id="@+id/topPosterImageContainer"
         android:layout_width="wrap_content"
         android:layout_height="140dp"
-        android:elevation="10dp"
+        android:elevation="@dimen/defaultMargin"
         app:cardCornerRadius="7dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="@dimen/defaultMargin"
+        android:layout_marginHorizontal="@dimen/defaultMargin"
         app:cardBackgroundColor="@color/black"
         android:maxWidth="200dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/underBannerBackgroundView">
 
         <ImageView
-            android:elevation="10dp"
+            android:elevation="@dimen/defaultMargin"
             app:cardCornerRadius="7dp"
             android:id="@+id/topPosterImage"
             android:layout_width="wrap_content"
@@ -65,8 +66,8 @@
         android:id="@+id/watchStatusButton"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="@dimen/defaultMargin"
+        android:layout_marginVertical="@dimen/defaultMargin"
         android:background="@drawable/media_card_watch_status_button_background_shape"
         android:fontFamily="@font/ubuntu_medium"
         android:text="Add to list"
@@ -79,8 +80,8 @@
         android:id="@+id/favoriteButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginVertical="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginVertical="@dimen/defaultMargin"
+        android:layout_marginEnd="@dimen/defaultMargin"
         android:background="@drawable/media_card_favorite_background_shape"
         android:src="@drawable/favorite_border_icon"
         android:textSize="18sp"
@@ -94,11 +95,13 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/underBannerBackgroundView"
         app:layout_constraintBottom_toTopOf="@id/watchStatusButton"
-        android:text="test title"
+        tools:text="test title"
         android:textSize="15sp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/defaultMargin"
+        android:layout_marginEnd="@dimen/defaultMargin"
         android:fontFamily="@font/ubuntu_medium"
         app:layout_constraintStart_toStartOf="@id/watchStatusButton"
+        app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@color/white" />
 
 

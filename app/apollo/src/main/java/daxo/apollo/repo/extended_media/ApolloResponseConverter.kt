@@ -7,7 +7,7 @@ import daxo.the.apollo.GetMediaExtendedCardFilteredQuery
 import daxo.core.model.media.ExtendedMediaCard
 import java.util.Date
 
-object ApolloResponceConverter {
+object ApolloResponseConverter {
 
     fun toDomain(media: List<GetMediaExtendedCardFilteredQuery.Medium?>?): List<ExtendedMediaCard> {
         val cards = mutableListOf<ExtendedMediaCard>()
