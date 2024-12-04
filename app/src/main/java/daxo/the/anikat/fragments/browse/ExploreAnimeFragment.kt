@@ -1,19 +1,21 @@
 package daxo.the.anikat.fragments.browse
 
-import androidx.lifecycle.ViewModelProvider
-import daxo.the.anikat.core.viewModels.ViewModelProviderFactory
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.fragments.browse.data.viewmodel.ExploreViewModel
-import daxo.the.anikat.tests.navigation_test.FragmentsNavigator
-import daxo.the.anikat.type.MediaType
-import javax.inject.Inject
+import daxo.core.model.media.enums.MediaType
 
+@AndroidEntryPoint
 class ExploreAnimeFragment : ExploreFragment() {
+
+    override val viewModel: ExploreViewModel by viewModels()
 
     override val mediaType: MediaType
         get() = MediaType.ANIME
 
-    override fun initViewModel(fragmentsNavigator: FragmentsNavigator) {
-        viewModel = fragmentsNavigator.getVM(ExploreViewModel::class,this::class.toString())
+    override fun onDestroy() {
+        super.onDestroy()
+        println("AnimeF destroyed")
     }
-
 }

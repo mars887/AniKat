@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="underBannerViewColor">#212037</color>
+
+    <color name="HBasicMediaCardBackgroundColor">#F2FAF7</color>
+    <color name="HBasicMediaCardTitleColor">#191919</color>
+    <color name="HBasicMediaCardTitleBackgroundColor">#D0D0D0</color>
+    <color name="HBasicMediaCardSeasonTextColor">#2D2D2D</color>
+    <color name="half_transperent_gray">#4B979797</color>
 </resources>

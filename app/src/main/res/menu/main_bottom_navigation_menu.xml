@@ -10,9 +10,9 @@
         android:icon="@drawable/explore_manga_svg"
         android:title="@string/mainNavBarExploreMangaText" />
     <item
-        android:id="@+id/tempItem"
-        android:title="Temp"
-        android:icon="@drawable/baseline_add_circle_24"/>
+        android:id="@+id/mainNavBarMenuViewHistory"
+        android:title="@string/mainNavBarViewHistoryText"
+        android:icon="@drawable/view_history_icon"/>
     <item
         android:id="@+id/mainNavBarMenuProfile"
         android:icon="@drawable/profile_svg"

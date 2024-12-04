@@ -7,19 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import daxo.the.anikat.R
-import daxo.the.anikat.fragments.browse.data.entity.MediaLineData
-import daxo.the.anikat.fragments.browse.util.diffutil.ExploreMediaDiffUtilImpl
-import daxo.the.anikat.fragments.browse.util.decorator.MediaLineDecorator
 import daxo.the.anikat.databinding.ExploreRvTestItemBinding
-import daxo.the.anikat.fragments.browse.data.entity.ExploreMediaPagesInfo
-import daxo.the.anikat.fragments.browse.data.entity.MediaCardData
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.EmptyCoroutineContext
-
+import daxo.the.anikat.fragments.browse.data.entity.*
+import daxo.the.anikat.fragments.browse.util.decorator.MediaLineRVDecorator
+import daxo.the.anikat.fragments.browse.util.diffutil.ExploreMediaDiffUtilImpl
+import daxo.core.model.media.ExtendedMediaCard
+import jp.wasabeef.recyclerview.animators.FadeInAnimator
 
 class ExploreMediaRVAdapter(
     private val context: Context,
@@ -27,12 +20,13 @@ class ExploreMediaRVAdapter(
 
     var interactListener: ExploreMediaRVAdapterListener? = null
 
-    var data = listOf<MediaLineData>()
+    /* --- DATA WITH DIFF UTIL --- */
+
+    var data = listOf<ExtendedMediaCardListScrollable>()
         set(value) {
             val callback = ExploreMediaDiffUtilImpl(field, value)
             field = value
             DiffUtil.calculateDiff(callback).dispatchUpdatesTo(this)
-            println("explore adapter notified")
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaLineViewHolder {
@@ -41,100 +35,116 @@ class ExploreMediaRVAdapter(
         return MediaLineViewHolder(binding)
     }
 
+    /* --- ON BIND --- */
+
     override fun onBindViewHolder(holder: MediaLineViewHolder, position: Int) {
         data[position].let {
             holder.bind(it, context, interactListener)
         }
     }
 
+    override fun onBindViewHolder(holder: MediaLineViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isEmpty()) onBindViewHolder(holder, position)
+        else if (payloads[0] is String) {
+            val payload = payloads[0] as String
+
+            if (payload.contains("cards")) holder.updateCards(data[position])
+            if (payload.contains("lineName")) holder.updateLineName(data[position].extendedMediaCardList.listName)
+        }
+    }
 
     override fun getItemCount(): Int = data.size
 
-    class MediaLineViewHolder(val binding: ExploreRvTestItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    /* --- HOLDER CLASS --- */
 
-        private var lastTag: ExploreMediaPagesInfo.MediaTypes? = null
+    class MediaLineViewHolder(private val binding: ExploreRvTestItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        private lateinit var adapter: MediaLineRVAdapter
+        private lateinit var interactListener: ExploreMediaRVAdapterListener
 
         fun bind(
-            data: MediaLineData,
+            data: ExtendedMediaCardListScrollable,
             context: Context,
             interactListener: ExploreMediaRVAdapterListener?,
         ) {
-            binding.animeLineTitleView.text = data.lineName
+            if (interactListener != null) this.interactListener = interactListener
+
+            binding.animeLineTitleView.text = data.extendedMediaCardList.listName  // setting list name
 
             val recyclerView = binding.innerRecyclerView
 
-            if (recyclerView.adapter != null && lastTag == data.tag) {
-                (recyclerView.adapter as MediaLineRVAdapter).data = data
-            } else {
-                val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-                val adapter = MediaLineRVAdapter(interactListener)
+            adapter = MediaLineRVAdapter(interactListener)
+            adapter.data = data
 
-                adapter.data = data
-                recyclerView.layoutManager = layoutManager
-                recyclerView.adapter = adapter
+            val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            recyclerView.layoutManager = layoutManager
+            recyclerView.adapter = adapter
 
-                if (recyclerView.itemDecorationCount == 0)
-                    recyclerView.addItemDecoration(
-                        MediaLineDecorator(
-                            context.resources.getDimensionPixelSize(
-                                R.dimen.exploreFragmentBaseMargin
-                            )
+            if (recyclerView.itemDecorationCount == 0) {
+                recyclerView.addItemDecoration(
+                    MediaLineRVDecorator(
+                        context.resources.getDimensionPixelSize(
+                            R.dimen.exploreFragmentBaseMargin
                         )
                     )
+                )
+            }
 
+            initScroll(recyclerView, layoutManager, interactListener, data) // init scroll
 
-                recyclerView.addOnScrollListener(MediaLineOnScrollListener(layoutManager) {
-                    requestPaginate(interactListener, data, adapter)
+            recyclerView.itemAnimator = FadeInAnimator().apply {    // items animation
+                moveDuration = 500
+                addDuration = 500
+                changeDuration = 500
+                removeDuration = 500
+            }
+
+            layoutManager.scrollToPosition(data.scrollPosition)
+        }
+
+        private fun initScroll(
+            recyclerView: RecyclerView,
+            layoutManager: LinearLayoutManager,
+            interactListener: ExploreMediaRVAdapterListener?,
+            data: ExtendedMediaCardListScrollable
+        ) {
+            recyclerView.clearOnScrollListeners()
+
+            recyclerView.addOnScrollListener(MediaLineOnScrollListener(
+                layoutManager, {
+                    interactListener?.requirePaginate(data) // on paginate required
+                }, {
+                    data.scrollPosition = layoutManager.findFirstVisibleItemPosition() // any scroll
                 })
+            )
 
-                binding.animeLineTitleView.setOnClickListener {
-                    interactListener?.mediaLineClicked(data)
-                }
+            binding.animeLineTitleView.setOnClickListener {
+                interactListener?.mediaLineClicked(data)
             }
         }
 
-        private fun requestPaginate(
-            interactListener: ExploreMediaRVAdapterListener?,
-            data: MediaLineData,
-            adapter: MediaLineRVAdapter
-        ) {
-            CoroutineScope(
-                CoroutineExceptionHandler { coroutineContext, throwable ->
-                    println(throwable.message)
-                    throwable.printStackTrace()
-                }
-            ).launch {
-                interactListener?.requirePaginate(data) { response, isFromCache -> // TODO
-                    withContext(Dispatchers.Main) {
+        fun updateCards(newCards: ExtendedMediaCardListScrollable) {
+            adapter.data = newCards
+            initScroll(
+                binding.innerRecyclerView,
+                binding.innerRecyclerView.layoutManager!! as LinearLayoutManager,
+                interactListener,
+                newCards
+            )
+        }
 
-                        val newLineData =
-                            MediaLineData(response.lineName, mutableListOf(), response.tag)
-                        newLineData.data.addAll(adapter.data.data)
-
-                        response.data.forEach { mcd ->
-                            val foundId =
-                                newLineData.data.indexOfFirst { it.mediaId == mcd.mediaId }
-
-                            if (foundId == -1) newLineData.data += mcd else {
-                                newLineData.data[foundId] = mcd
-                            }
-                        }
-
-                        adapter.data = newLineData
-                        data.data = newLineData.data
-                    }
-                }
-            }
+        fun updateLineName(listName: String) {
+            binding.animeLineTitleView.text = listName
         }
     }
 
     interface ExploreMediaRVAdapterListener {
-        fun mediaLineClicked(dataLineData: MediaLineData)
-        fun mediaItemClicked(data: MediaLineData, mediaCardData: MediaCardData, position: Int)
-        suspend fun requirePaginate(
-            data: MediaLineData,
-            func: suspend (MediaLineData, Boolean) -> Unit
-        )
+        fun mediaLineClicked(dataLineData: ExtendedMediaCardListScrollable)
+        fun mediaItemClicked(data: ExtendedMediaCardListScrollable, mediaCardData: ExtendedMediaCard, position: Int)
+        fun requirePaginate(data: ExtendedMediaCardListScrollable)
+    }
+
+    private companion object {
+        private const val TAG = "ExploreMediaRVAdapter"
     }
 }

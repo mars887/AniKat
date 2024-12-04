@@ -1,28 +1,28 @@
 package daxo.the.anikat.fragments.profile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import dagger.android.support.DaggerFragment
-import daxo.the.anikat.App
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.R
-import daxo.the.anikat.core.viewModels.ViewModelProviderFactory
 import daxo.the.anikat.databinding.FragmentProfileBinding
-import daxo.the.anikat.fragments.browse.data.viewmodel.ExploreViewModel
-import daxo.the.anikat.main_activity.MainActivity
-import daxo.the.anikat.tests.navigation_test.FragmentsNavigator
-import javax.inject.Inject
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class ProfileFragment(
-    val viewModel: ProfileViewModel
-) : Fragment() {
+@AndroidEntryPoint
+class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +35,36 @@ class ProfileFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.mainDataState
+            .onEach { data ->
+                if (data == null) return@onEach
+                with(binding) {
+                    usernameText.text = data.name
+                    userAboutText.text = data.about
 
+                    data.avatar?.let {
+                        Glide.with(binding.root)
+                            .load(it.medium ?: it.large)
+                            .placeholder(R.drawable.rectangle_placeholder_anim_vector)
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .fitCenter()
+                            .into(avatarImage)
+                    }
+
+                    if(data.bannerImage != null) {
+                        Glide.with(binding.root)
+                            .load(data.bannerImage)
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .into(bannerImage)
+                    } else {
+                        bannerImage.visibility = View.GONE
+                    }
+                }
+            }.launchIn(lifecycleScope)
+
+    }
+
+    companion object {
+        private const val TAG = "ProfileFragment"
     }
 }

@@ -21,4 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "AniKat"
 include(":app")
- 
+include(":app:navigation")
+include(":app:data")
+include(":app:apollo")
+include(":app:services")
+include(":app:core")

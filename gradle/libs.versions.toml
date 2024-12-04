@@ -1,50 +1,63 @@
 [versions]
-agp = "8.5.2"
-apolloRuntime = "4.0.0"
-apolloNormalizedCache = "4.0.0"
-daggerAndroid = "2.52"
-daggerAndroidSupport = "2.52"
-fragmentKtx = "1.8.3"
+agp = "8.6.1"
+apolloRuntime = "4.1.0"
+apolloNormalizedCache = "4.1.0"
+blurry = "4.0.1"
+fragmentKtx = "1.8.5"
 glide = "4.16.0"
-kotlin = "1.9.0"
-coreKtx = "1.13.1"
-junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
+gson = "2.11.0"
+kotlin = "2.0.21"
+coreKtx = "1.15.0"
 appcompat = "1.7.0"
-kotlinxCoroutinesCore = "1.8.0"
+kotlinxCoroutinesCore = "1.9.0"
 material = "1.12.0"
-activity = "1.9.2"
-constraintlayout = "2.1.4"
-navigationUiKtx = "2.8.0"
-navigationFragmentKtx = "2.8.0"
+activity = "1.9.3"
+constraintlayout = "2.2.0"
+navigationUiKtx = "2.8.4"
+navigationFragmentKtx = "2.8.4"
+okhttp = "4.11.0"
+recyclerviewAnimators = "4.0.2"
+jetbrainsKotlinJvm = "2.0.21"
+roomRuntime = "2.6.1"
+hiltAndroid = "2.52"
+hiltCompiler = "2.52"
+navigationCommonKtx = "2.8.4"
+securityCryptoKtx = "1.0.0"
+browser = "1.8.0"
+workRuntimeKtx = "2.10.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
-androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationUiKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCryptoKtx" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 apollo-normalized-cache = { module = "com.apollographql.apollo:apollo-normalized-cache", version.ref = "apolloNormalizedCache" }
 apollo-normalized-cache-sqlite = { module = "com.apollographql.apollo:apollo-normalized-cache-sqlite", version.ref = "apolloRuntime" }
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apolloRuntime" }
-dagger = { module = "com.google.dagger:dagger", version.ref = "daggerAndroid" }
-dagger-android-processor = { module = "com.google.dagger:dagger-android-processor", version.ref = "daggerAndroid" }
-dagger-android-support = { module = "com.google.dagger:dagger-android-support", version.ref = "daggerAndroidSupport" }
-dagger-android = { module = "com.google.dagger:dagger-android", version.ref = "daggerAndroid" }
-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "daggerAndroid" }
+blurry = { module = "jp.wasabeef:blurry", version.ref = "blurry" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+recyclerview-animators = { module = "jp.wasabeef:recyclerview-animators", version.ref = "recyclerviewAnimators" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hiltAndroid" }
+androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigationCommonKtx" }
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+android-library = { id = "com.android.library", version.ref = "agp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }

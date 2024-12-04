@@ -24,13 +24,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView"
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="@dimen/exploreFragmentSearchViewHeight"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search..."
-            app:layout_scrollFlags="scroll|enterAlways" />
+            app:cardCornerRadius="@dimen/defaultMargin">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search..."
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+        </com.google.android.material.card.MaterialCardView>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

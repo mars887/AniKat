@@ -24,4 +24,18 @@
         android:id="@+id/mainMediaPageFragment"
         android:name="daxo.the.anikat.fragments.mediapage.MainMediaPageFragment"
         android:label="fragment_main_media_page" />
+    <fragment
+        android:id="@+id/mediaHistoryFragment"
+        android:name="daxo.the.anikat.fragments.mediaviewinghistory.MediaHistoryFragment"
+        android:label="fragment_media_history" />
+    <fragment
+        android:id="@+id/profileInitializationFragment"
+        android:name="daxo.the.anikat.fragments.profile.ProfileInitializationFragment"
+        android:label="fragment_profile_initialization"
+        tools:layout="@layout/fragment_profile_initialization" />
+    <fragment
+        android:id="@+id/authProfileFragment"
+        android:name="daxo.the.anikat.fragments.profile.unlogged.AuthProfileFragment"
+        android:label="fragment_unlogged_profile"
+        tools:layout="@layout/fragment_unlogged_profile" />
 </navigation>
