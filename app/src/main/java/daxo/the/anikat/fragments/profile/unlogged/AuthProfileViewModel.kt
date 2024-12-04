@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import daxo.apollo.auth.CheckTokenService
+import daxo.core.api.ApiInfo
+import daxo.core.api.ApiAppSecretData
 import daxo.core.api.AuthConfig
 import daxo.services.AuthService
 import kotlinx.coroutines.Dispatchers
@@ -73,9 +75,9 @@ class AuthProfileViewModel @Inject constructor(
     }
 
     fun createLoginCustomTab(): Pair<CustomTabsIntent, Uri> {
-        val authUri = Uri.parse(AuthConfig.AUTH_URI)
+        val authUri = Uri.parse(ApiInfo.AUTH_URI)
             .buildUpon()
-            .appendQueryParameter("client_id", AuthConfig.CLIENT_ID)
+            .appendQueryParameter("client_id", ApiAppSecretData.CLIENT_ID)
             .appendQueryParameter("redirect_uri", AuthConfig.CALLBACK_URL)
             .appendQueryParameter("response_type", "code")
             .build()

@@ -1,7 +1,9 @@
 package daxo.services
 
 import android.util.Log
+import daxo.core.api.ApiInfo
 import daxo.core.api.ApiToken
+import daxo.core.api.ApiAppSecretData
 import daxo.core.api.AuthConfig
 import daxo.core.api.ITokenRepo
 import kotlinx.coroutines.flow.Flow
@@ -23,14 +25,14 @@ class AuthService @Inject constructor(
         try {
             val requestBody = FormBody.Builder()
                 .add("grant_type", "authorization_code")
-                .add("client_id", AuthConfig.CLIENT_ID)
-                .add("client_secret", AuthConfig.CLIENT_SECRET)
+                .add("client_id", ApiAppSecretData.CLIENT_ID)
+                .add("client_secret", ApiAppSecretData.CLIENT_SECRET)
                 .add("redirect_uri", AuthConfig.CALLBACK_URL)
                 .add("code", code)
                 .build()
 
             val request = Request.Builder()
-                .url(AuthConfig.TOKEN_URI)
+                .url(ApiInfo.TOKEN_URI)
                 .post(requestBody)
                 .build()
 
