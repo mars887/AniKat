@@ -4,14 +4,14 @@ import android.util.Log
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import daxo.apollo.QueryTimeController
-import daxo.apollo.repo.converters.MediaFormatConverter.toApollo
-import daxo.apollo.repo.converters.MediaSeasonConverter.toApollo
-import daxo.apollo.repo.converters.MediaSortConverter.toApollo
-import daxo.apollo.repo.converters.MediaTypeConverter.toApollo
+import daxo.apollo.repo.converters.enums.MediaFormatConverter.toApollo
+import daxo.apollo.repo.converters.enums.MediaSeasonConverter.toApollo
+import daxo.apollo.repo.converters.enums.MediaSortConverter.toApollo
+import daxo.apollo.repo.converters.enums.MediaTypeConverter.toApollo
 import daxo.the.apollo.GetMediaExtendedCardFilteredQuery
-import daxo.the.data.api.explore.LoadMediaPagesParams
+import daxo.the.data.interfaces.media_get.LoadMediaPagesParams
 import daxo.the.data.interfaces.media_get.IExtendedMediaRepo
-import daxo.core.model.media.ExtendedMediaCard
+import daxo.core.model.media.media.extended.ExtendedMediaCard
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 

@@ -1,6 +1,6 @@
 package daxo.the.data.interfaces.media_store
 
-import daxo.core.model.media.ExtendedMediaCard
+import daxo.core.model.media.media.extended.ExtendedMediaCard
 
 
 interface IExtendedMediaCacheRepo {

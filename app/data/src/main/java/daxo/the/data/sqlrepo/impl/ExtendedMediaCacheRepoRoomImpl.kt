@@ -3,7 +3,7 @@ package daxo.the.data.sqlrepo.impl
 import daxo.the.data.interfaces.media_store.IExtendedMediaCacheRepo
 import daxo.the.data.sqlrepo.dao.ExtendedMediaCacheDao
 import daxo.the.data.sqlrepo.entity.ExtendedMediaCardEntity
-import daxo.core.model.media.ExtendedMediaCard
+import daxo.core.model.media.media.extended.ExtendedMediaCard
 import javax.inject.Inject
 
 class ExtendedMediaCacheRepoRoomImpl @Inject constructor(

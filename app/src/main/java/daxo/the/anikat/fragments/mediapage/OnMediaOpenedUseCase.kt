@@ -2,7 +2,7 @@ package daxo.the.anikat.fragments.mediapage
 
 import android.util.Log
 import daxo.the.data.interfaces.media_store.IMediaViewHistoryRepo
-import daxo.core.model.media.ExtendedMediaCard
+import daxo.core.model.media.media.extended.ExtendedMediaCard
 import javax.inject.Inject
 
 class OnMediaOpenedUseCase @Inject constructor(

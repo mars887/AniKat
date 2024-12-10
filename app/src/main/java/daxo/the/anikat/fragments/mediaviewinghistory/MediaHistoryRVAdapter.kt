@@ -16,7 +16,7 @@ import androidx.core.view.setPadding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import daxo.core.model.media.ExtendedMediaCardViewed
+import daxo.core.model.media.media.extended.ExtendedMediaCardViewed
 import daxo.the.anikat.R
 import daxo.the.anikat.databinding.HorizontalBasicMediaCardBinding
 import daxo.the.anikat.tests.TextViewWithDivider
@@ -125,7 +125,7 @@ class MediaHistoryRVAdapter(
 
                     val data = listOf(
                         "Episodes\n${card.episodes}",
-                        "Studio\n${card.studios?.edges?.firstOrNull { it.isMain ?: false }?.name}",
+                        "Studio\n${card.studios?.studios?.firstOrNull { it.isMain ?: false }?.studio?.name}",
                         "Season\n${card.season}",
                         "Favourites\n${card.favourites}",
                         "Format\n${card.format?.value}",

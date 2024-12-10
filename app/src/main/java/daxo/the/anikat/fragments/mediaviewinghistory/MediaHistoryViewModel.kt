@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import daxo.core.model.media.ExtendedMediaCardViewed
+import daxo.core.model.media.media.extended.ExtendedMediaCardViewed
 import daxo.the.anikat.fragments.mediaviewinghistory.test.DataLoader
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

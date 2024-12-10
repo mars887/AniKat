@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import androidx.activity.OnBackPressedCallback
@@ -24,7 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import daxo.the.anikat.R
 import daxo.the.anikat.databinding.ActivityMainBinding
-import daxo.core.model.media.ExtendedMediaCard
+import daxo.core.model.media.media.extended.ExtendedMediaCard
 import daxo.the.anikat.fragments.profile.ProfileInitializationFragment
 import daxo.the.anikat.tests.StartUpFragment
 import daxo.the.navigation.simpletest.NavController2Factory

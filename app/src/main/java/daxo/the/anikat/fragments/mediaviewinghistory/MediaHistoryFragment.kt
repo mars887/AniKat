@@ -11,11 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import daxo.core.model.media.ExtendedMediaCardViewed
+import daxo.core.model.media.media.extended.ExtendedMediaCardViewed
 import daxo.the.anikat.R
 import daxo.the.anikat.databinding.FragmentExploreBinding
 import daxo.the.anikat.fragments.browse.util.decorator.ExploreMediaRVDecorator
-import daxo.the.anikat.fragments.browse.util.decorator.MediaLineRVDecorator
 import daxo.the.anikat.main_activity.MainActivity
 import jp.wasabeef.recyclerview.animators.FadeInUpAnimator
 import kotlinx.coroutines.launch

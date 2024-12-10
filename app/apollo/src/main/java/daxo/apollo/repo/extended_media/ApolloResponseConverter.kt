@@ -1,10 +1,12 @@
 package daxo.apollo.repo.extended_media
 
-import daxo.apollo.repo.converters.MediaFormatConverter.toDomain
-import daxo.apollo.repo.converters.MediaSeasonConverter.toDomain
-import daxo.apollo.repo.extended_media.converters.*
+import daxo.apollo.repo.converters.AiringScheduleCommonConverter.toDomain
+import daxo.apollo.repo.converters.MediaCommonConverter.toDomain
+import daxo.apollo.repo.converters.StudiosCommonConverter.toDomain
+import daxo.apollo.repo.converters.enums.MediaFormatConverter.toDomain
+import daxo.apollo.repo.converters.enums.MediaSeasonConverter.toDomain
 import daxo.the.apollo.GetMediaExtendedCardFilteredQuery
-import daxo.core.model.media.ExtendedMediaCard
+import daxo.core.model.media.media.extended.ExtendedMediaCard
 import java.util.Date
 
 object ApolloResponseConverter {
@@ -14,18 +16,18 @@ object ApolloResponseConverter {
         media?.filterNotNull()?.forEach {
             cards += ExtendedMediaCard(
                 mediaId = it.id,
-                title = it.title?.toDomain(),
-                studios = it.studios?.toDomain(),
+                title = it.title?.mediaTitle?.toDomain(),
+                studios = it.studios?.basicStudioQuery?.toDomain(),
                 season = it.season?.toDomain(),
                 seasonYear = it.seasonYear,
-                nextAiringEpisode = it.nextAiringEpisode?.toDomain(),
+                nextAiringEpisode = it.nextAiringEpisode?.nextAiringEpisode?.toDomain(),
                 format = it.format?.toDomain(),
                 description = it.description,
                 episodes = it.episodes,
                 genres = it.genres?.filterNotNull(),
                 averageScore = it.averageScore,
                 favourites = it.favourites,
-                coverImage = it.coverImage?.toDomain(),
+                coverImage = it.coverImage?.mediaCoverImage?.toDomain(),
                 bannerImage = it.bannerImage,
                 lastUpdate = Date()
             )

@@ -42,5 +42,7 @@ enum class MediaSort(
     FAVOURITES_DESC("FAVOURITES_DESC"),
     UNKNOWN__("UNKNOWN__");
 
-    fun safeValueOf(rawValue: String): MediaSort = entries.find { it.rawValue == rawValue } ?: UNKNOWN__
+    companion object {
+        fun safeValueOf(rawValue: String): MediaSort = entries.find { it.rawValue == rawValue } ?: UNKNOWN__
+    }
 }

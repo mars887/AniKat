@@ -1,0 +1,29 @@
+fragment basicStaffQuery on StaffConnection {
+    edges {
+        node {
+            ... basicStaff
+        }
+    }
+}
+
+fragment basicStaff on Staff {
+    id
+    name {
+        ... basicStaffName
+    }
+    languageV2
+    image {
+        ... staffImage
+    }
+}
+
+fragment staffImage on StaffImage {
+    large
+    medium
+}
+
+fragment basicStaffName on StaffName {
+    first
+    last
+    full
+}

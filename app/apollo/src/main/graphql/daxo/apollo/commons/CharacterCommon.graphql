@@ -1,0 +1,20 @@
+fragment basicCharacter on Character {
+    id
+    name {
+        ... basicCharacterName
+    }
+    image {
+        ... characterImage
+    }
+    age
+}
+
+fragment characterImage on CharacterImage {
+    large
+    medium
+}
+fragment basicCharacterName on CharacterName {
+    first
+    last
+    full
+}

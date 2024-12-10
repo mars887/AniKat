@@ -16,6 +16,8 @@ enum class MediaFormat(
     ONE_SHOT("ONE_SHOT", "One shot"),
     UNKNOWN__("UNKNOWN__", "Unknown");
 
-    fun safeValueOf(value: String): MediaFormat =
-        entries.find { it.rawValue == value } ?: entries.find { it.value == value } ?: UNKNOWN__
+    companion object {
+        fun safeValueOf(value: String): MediaFormat =
+            entries.find { it.rawValue == value } ?: entries.find { it.value == value } ?: UNKNOWN__
+    }
 }

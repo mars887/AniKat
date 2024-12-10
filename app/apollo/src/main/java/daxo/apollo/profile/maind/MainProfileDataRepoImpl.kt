@@ -5,8 +5,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.cache.normalized.FetchPolicy
 import com.apollographql.apollo.cache.normalized.fetchPolicy
 import daxo.apollo.QueryTimeController
-import daxo.apollo.repo.converters.UserStaffNameLanguageConverter.toDomain
-import daxo.apollo.repo.converters.UserTitleLanguageConverter.toDomain
+import daxo.apollo.repo.converters.UserCommonConverter.toDomain
 import daxo.core.model.profile.MainProfileData
 import daxo.the.apollo.LoadMainProfileDataQuery
 import daxo.the.data.interfaces.profile.IMainProfileDataRepo
@@ -67,16 +66,7 @@ class MainProfileDataRepoImpl @Inject constructor(
                 siteUrl = viewer.siteUrl,
                 donatorTier = viewer.donatorTier,
                 donatorBadge = viewer.donatorBadge,
-                userOptions = MainProfileData.UserOptions(
-                    titleLanguage = viewer.options?.titleLanguage?.toDomain(),
-                    displayAdultContent = viewer.options?.displayAdultContent,
-                    profileColor = viewer.options?.profileColor,
-                    staffNameLanguage = viewer.options?.staffNameLanguage?.toDomain()
-                ),
-                avatar = MainProfileData.Avatar(
-                    medium = viewer.avatar?.medium,
-                    large = viewer.avatar?.large
-                )
+                avatar = viewer.avatar?.userAvatar?.toDomain()
             )
         }
     }

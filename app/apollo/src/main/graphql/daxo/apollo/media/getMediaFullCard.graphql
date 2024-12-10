@@ -1,231 +1,111 @@
-query FullMediaCard($id: Int, $type: MediaType, $isAdult: Boolean) {
-    Media(id: $id, type: $type, isAdult: $isAdult) {
+query FullMediaCard(
+    $id: Int,
+    $type: MediaType,
+    $innerListsPerPage: Int,
+    $innerListsPage: Int,
+    $voiceActorsLanguage: StaffLanguage
+) {
+    Media(id: $id,type: $type) {
         id
-        title {
-            userPreferred
-            romaji
-            english
-            native
-        }
-        coverImage {
-            extraLarge
-            large
-        }
-        bannerImage
-        startDate {
-            year
-            month
-            day
-        }
-        endDate {
-            year
-            month
-            day
-        }
-        description
-        season
-        seasonYear
         type
         format
         status(version: 2)
+        description
+        season
+        seasonYear
         episodes
         duration
         chapters
         volumes
-        genres
-        synonyms
-        source(version: 3)
-        isAdult
-        isLocked
-        meanScore
-        averageScore
-        popularity
-        favourites
-        isFavouriteBlocked
-        hashtag
         countryOfOrigin
         isLicensed
+        source(version: 3)
+        hashtag
+        updatedAt
+        bannerImage
+        genres
+        synonyms
+        averageScore
+        meanScore
+        popularity
+        isLocked
+        trending
+        favourites
         isFavourite
-        isRecommendationBlocked
         isFavouriteBlocked
+        siteUrl
+        autoCreateForumThread
+        isRecommendationBlocked
         isReviewBlocked
-        nextAiringEpisode {
-            airingAt
-            timeUntilAiring
-            episode
+        modNotes
+        isAdult
+        title {
+            ... mediaTitle
         }
-        relations {
-            edges {
-                id
-                relationType(version: 2)
-                node {
-                    id
-                    title {
-                        userPreferred
-                    }
-                    format
-                    type
-                    status(version: 2)
-                    bannerImage
-                    coverImage {
-                        large
-                    }
-                }
-            }
+        startDate {
+            ... fuzzyDate
         }
-        characterPreview: characters(perPage: 6, sort: [ROLE, RELEVANCE, ID]) {
-            edges {
-                id
-                role
-                name
-                voiceActors(language: JAPANESE, sort: [RELEVANCE, ID]) {
-                    id
-                    name {
-                        userPreferred
-                    }
-                    language: languageV2
-                    image {
-                        large
-                    }
-                }
-                node {
-                    id
-                    name {
-                        userPreferred
-                    }
-                    image {
-                        large
-                    }
-                }
-            }
-        }
-        staffPreview: staff(perPage: 8, sort: [RELEVANCE, ID]) {
-            edges {
-                id
-                role
-                node {
-                    id
-                    name {
-                        userPreferred
-                    }
-                    language: languageV2
-                    image {
-                        large
-                    }
-                }
-            }
-        }
-        studios {
-            edges {
-                isMain
-                node {
-                    id
-                    name
-                }
-            }
-        }
-        reviewPreview: reviews(perPage: 2, sort: [RATING_DESC, ID]) {
-            pageInfo {
-                total
-            }
-            nodes {
-                id
-                summary
-                rating
-                ratingAmount
-                user {
-                    id
-                    name
-                    avatar {
-                        large
-                    }
-                }
-            }
-        }
-        recommendations(perPage: 7, sort: [RATING_DESC, ID]) {
-            pageInfo {
-                total
-            }
-            nodes {
-                id
-                rating
-                userRating
-                mediaRecommendation {
-                    id
-                    title {
-                        userPreferred
-                    }
-                    format
-                    type
-                    status(version: 2)
-                    bannerImage
-                    coverImage {
-                        large
-                    }
-                }
-                user {
-                    id
-                    name
-                    avatar {
-                        large
-                    }
-                }
-            }
-        }
-        externalLinks {
-            id
-            site
-            url
-            type
-            language
-            color
-            icon
-            notes
-            isDisabled
-        }
-        streamingEpisodes {
-            site
-            title
-            thumbnail
-            url
+        endDate {
+            ... fuzzyDate
         }
         trailer {
-            id
-            site
+            ... mediaTrailer
         }
-        rankings {
-            id
-            rank
-            type
-            format
-            year
-            season
-            allTime
-            context
+        coverImage {
+            ... mediaCoverImage
         }
         tags {
-            id
-            name
-            description
-            rank
-            isMediaSpoiler
-            isGeneralSpoiler
-            userId
+            ... mediaTag
         }
-        mediaListEntry {
-            id
-            status
-            score
+        relations {
+            ... basicMediaRelationQuery
+        }
+        characters(perPage: $innerListsPerPage, page: $innerListsPage) {
+            edges {
+                role
+                node {
+                    ... basicCharacter
+                }
+                voiceActors(language: $voiceActorsLanguage) {
+                    ... basicStaff
+                }
+            }
+
+        }
+        staff(perPage: $innerListsPerPage, page: $innerListsPage) {
+            ... basicStaffQuery
+        }
+        studios {
+            ... basicStudioQuery
+        }
+        nextAiringEpisode {
+            ... nextAiringEpisode
+        }
+        externalLinks {
+            ... mediaExternalLink
+        }
+        recommendations(perPage: $innerListsPerPage, page: $innerListsPage) {
+            ... basicRecommendationsQuery
+        }
+        reviews(perPage: $innerListsPerPage, page: $innerListsPage) {
+            ... basicReviewQuery
         }
         stats {
-            statusDistribution {
-                status
-                amount
+            ... basicStats
+        }
+        airingSchedule(perPage: $innerListsPerPage, page: $innerListsPage) {
+            edges {
+                node {
+                    ... nextAiringEpisode
+                }
             }
-            scoreDistribution {
-                score
-                amount
-            }
+        }
+        streamingEpisodes {
+            ... mediaStreamingEpisode
+        }
+        rankings {
+            ... mediaRanking
         }
     }
 }
+

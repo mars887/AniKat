@@ -3,10 +3,11 @@ package daxo.the.data.sqlrepo.entity.converters
 import androidx.room.TypeConverter
 import daxo.core.model.media.enums.MediaFormat
 import daxo.core.model.media.enums.MediaSeason
-import daxo.core.model.media.minis.CoverImage
-import daxo.core.model.media.minis.MediaTitle
-import daxo.core.model.media.minis.NextAiringEpisode
-import daxo.core.model.media.minis.Studios
+import daxo.core.model.byApollo.media.BasicStudio
+import daxo.core.model.byApollo.media.BasicStudioQuery
+import daxo.core.model.byApollo.media.MediaCoverImage
+import daxo.core.model.byApollo.media.MediaTitle
+import daxo.core.model.byApollo.media.NextAiringEpisode
 
 object MinisConverter {
 
@@ -19,12 +20,12 @@ object MinisConverter {
         GsonObject.gson.fromJson(string, MediaTitle::class.java)
 
     @TypeConverter
-    fun studiosTo(studios: Studios): String =
+    fun studiosTo(studios: BasicStudio): String =
         GsonObject.gson.toJson(studios)
 
     @TypeConverter
-    fun studiosFrom(string: String): Studios =
-        GsonObject.gson.fromJson(string, Studios::class.java)
+    fun studiosFrom(string: String): BasicStudio =
+        GsonObject.gson.fromJson(string, BasicStudio::class.java)
 
     @TypeConverter
     fun mediaSeasonTo(season: MediaSeason): String =
@@ -51,10 +52,18 @@ object MinisConverter {
         MediaFormat.valueOf(string)
 
     @TypeConverter
-    fun coverImageTo(coverImage: CoverImage): String =
+    fun coverImageTo(coverImage: MediaCoverImage): String =
         GsonObject.gson.toJson(coverImage)
 
     @TypeConverter
-    fun coverImageFrom(string: String): CoverImage =
-        GsonObject.gson.fromJson(string,CoverImage::class.java)
+    fun coverImageFrom(string: String): MediaCoverImage =
+        GsonObject.gson.fromJson(string, MediaCoverImage::class.java)
+
+    @TypeConverter
+    fun basicStudioQueryTo(studios: BasicStudioQuery): String =
+        GsonObject.gson.toJson(studios)
+
+    @TypeConverter
+    fun basicStudioQueryFrom(string: String): BasicStudioQuery =
+        GsonObject.gson.fromJson(string, BasicStudioQuery::class.java)
 }

@@ -1,0 +1,10 @@
+fragment nextAiringEpisode on AiringSchedule {
+    id
+    airingAt
+    timeUntilAiring
+    episode
+    mediaId
+    media {
+        ... basicMedia
+    }
+}

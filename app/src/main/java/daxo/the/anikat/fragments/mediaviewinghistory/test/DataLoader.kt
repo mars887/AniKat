@@ -1,7 +1,7 @@
 package daxo.the.anikat.fragments.mediaviewinghistory.test
 
 import dagger.hilt.android.scopes.ViewModelScoped
-import daxo.core.model.media.ExtendedMediaCardViewed
+import daxo.core.model.media.media.extended.ExtendedMediaCardViewed
 import daxo.the.data.interfaces.media_store.IMediaViewHistoryRepo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

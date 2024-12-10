@@ -1,0 +1,15 @@
+fragment basicStudio on Studio {
+    id
+    name
+    isFavourite
+}
+
+fragment basicStudioQuery on StudioConnection {
+    edges {
+        id
+        isMain
+        node {
+            ... basicStudio
+        }
+    }
+}

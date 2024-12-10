@@ -4,8 +4,8 @@ import daxo.the.data.interfaces.media_store.IMediaViewHistoryRepo
 import daxo.the.data.sqlrepo.dao.MediaViewHistoryDao
 import daxo.the.data.sqlrepo.entity.ExtendedMediaCardViewedEntity
 import daxo.the.data.sqlrepo.entity.MediaViewHistoryEntity
-import daxo.core.model.media.ExtendedMediaCard
-import daxo.core.model.media.ExtendedMediaCardViewed
+import daxo.core.model.media.media.extended.ExtendedMediaCard
+import daxo.core.model.media.media.extended.ExtendedMediaCardViewed
 import java.util.Date
 import javax.inject.Inject
 

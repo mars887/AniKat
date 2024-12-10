@@ -19,6 +19,7 @@
         android:id="@+id/searchViewLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@null"
         android:layout_margin="@dimen/defaultMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +29,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="@dimen/exploreFragmentSearchViewHeight"
+            android:background="@null"
             app:cardCornerRadius="@dimen/defaultMargin">
 
             <androidx.appcompat.widget.SearchView
@@ -35,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:iconifiedByDefault="false"
+                android:background="@null"
                 android:queryHint="Search..."
                 app:layout_scrollFlags="scroll|enterAlways" />
 

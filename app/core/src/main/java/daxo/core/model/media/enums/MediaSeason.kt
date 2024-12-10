@@ -9,5 +9,7 @@ enum class MediaSeason(
     FALL("FALL"),
     UNKNOWN__("UNKNOWN__");
 
-    fun safeValueOf(rawValue: String): MediaSeason = entries.find { it.rawValue == rawValue } ?: UNKNOWN__
+    companion object {
+        fun safeValueOf(rawValue: String): MediaSeason = entries.find { it.rawValue == rawValue } ?: UNKNOWN__
+    }
 }

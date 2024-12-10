@@ -13,7 +13,7 @@ import daxo.the.anikat.R
 import daxo.the.anikat.databinding.VerticalBasicMediaCardBinding
 import daxo.the.anikat.fragments.browse.data.entity.ExtendedMediaCardListScrollable
 import daxo.the.anikat.fragments.browse.util.diffutil.BasicMediaCardListDiffUtil
-import daxo.core.model.media.ExtendedMediaCard
+import daxo.core.model.media.media.extended.ExtendedMediaCard
 
 
 class MediaLineRVAdapter(

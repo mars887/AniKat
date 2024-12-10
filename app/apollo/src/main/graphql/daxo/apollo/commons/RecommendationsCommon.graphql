@@ -1,0 +1,9 @@
+fragment basicRecommendationsQuery on RecommendationConnection {
+    edges {
+        node {
+            media {
+                ... basicMedia
+            }
+        }
+    }
+}

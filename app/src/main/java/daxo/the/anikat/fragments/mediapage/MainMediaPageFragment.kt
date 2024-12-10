@@ -16,9 +16,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import daxo.core.images.IImageQualityUrl
 import daxo.core.images.ImageInfoModel
-import daxo.core.model.media.ExtendedMediaCard
+import daxo.core.model.helpers.ImageQGrades
+import daxo.core.model.media.media.extended.ExtendedMediaCard
 import daxo.services.ClipBoardService
 import daxo.services.util.ImageLoadShareService
 import daxo.the.anikat.R
@@ -84,7 +84,7 @@ class MainMediaPageFragment : Fragment(), ImageShareLoadDialog.SelectedOptionLis
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.topBannerImage)
         } ?: run {
-            binding.root.jumpToState(R.id.showBanner)
+            binding.root.jumpToState(R.id.hideBanner)
         }
 
 
@@ -94,7 +94,7 @@ class MainMediaPageFragment : Fragment(), ImageShareLoadDialog.SelectedOptionLis
                     this, ImageInfoModel(
                         initialCard.title?.userPreferred ?: initialCard.title?.native ?: "",
                         mediaCoverImage,
-                        initialCard.coverImage as IImageQualityUrl,
+                        ImageQGrades(initialCard.coverImage!!),
                         initialCard.mediaId
                     )
                 )
@@ -108,7 +108,7 @@ class MainMediaPageFragment : Fragment(), ImageShareLoadDialog.SelectedOptionLis
                     this, ImageInfoModel(
                         initialCard.title?.userPreferred ?: initialCard.title?.native ?: "",
                         mediaBannerImage,
-                        IImageQualityUrl.getByOneUrl(mediaBannerImage!!),
+                        ImageQGrades(mediaBannerImage!!),
                         initialCard.mediaId
                     )
                 )
@@ -137,9 +137,7 @@ class MainMediaPageFragment : Fragment(), ImageShareLoadDialog.SelectedOptionLis
     override fun downloadSelectedImage(imageInfo: ImageInfoModel) {
         Log.i(TAG, "downloadSelectedImage: $imageInfo")
         lifecycleScope.launch(Dispatchers.IO) {
-            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) ||
-                (requireActivity() as MainActivity).checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            ) {
+            if (!imageService.checkPermissions()) {
                 imageService.performLoad(imageInfo)
             } else {
                 (requireActivity() as MainActivity).requestWriteExternalStoragePermission().collect {

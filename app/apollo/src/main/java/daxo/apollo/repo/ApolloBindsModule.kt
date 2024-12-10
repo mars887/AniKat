@@ -7,8 +7,10 @@ import dagger.hilt.components.SingletonComponent
 import daxo.apollo.auth.CheckTokenService
 import daxo.apollo.profile.maind.MainProfileDataRepoImpl
 import daxo.apollo.repo.extended_media.ExtendedMediaRepoApolloImpl
+import daxo.apollo.repo.full_media.FullMediaCardRepoApolloImpl
 import daxo.the.data.api.auth.ICheckTokenService
 import daxo.the.data.interfaces.media_get.IExtendedMediaRepo
+import daxo.the.data.interfaces.media_get.IFullMediaCardRepo
 import daxo.the.data.interfaces.profile.IMainProfileDataRepo
 
 @Module
@@ -16,6 +18,9 @@ import daxo.the.data.interfaces.profile.IMainProfileDataRepo
 interface ApolloBindsModule {
     @Binds
     fun bindsExtendedMediaRepoApolloImpl(apolloImpl: ExtendedMediaRepoApolloImpl): IExtendedMediaRepo
+
+    @Binds
+    fun bindsFullMediaCardRepoApolloImpl(apolloImpl: FullMediaCardRepoApolloImpl): IFullMediaCardRepo
 
     @Binds
     fun bindsMainProfileDataRepoImpl(apolloImpl: MainProfileDataRepoImpl): IMainProfileDataRepo

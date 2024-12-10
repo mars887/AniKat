@@ -8,15 +8,8 @@ query LoadMainProfileData {
         siteUrl
         donatorTier
         donatorBadge
-        options {
-            titleLanguage
-            displayAdultContent
-            profileColor
-            staffNameLanguage
-        }
         avatar {
-            large
-            medium
+            ...userAvatar
         }
     }
 }

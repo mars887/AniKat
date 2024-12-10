@@ -17,7 +17,7 @@
     <ConstraintSet android:id="@+id/end">
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/showBanner" >
+    <ConstraintSet android:id="@+id/hideBanner" >
         <Constraint
             android:id="@+id/topBannerImage"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -39,5 +39,5 @@
     </ConstraintSet>
     <Transition
         motion:constraintSetStart="@+id/start"
-        motion:constraintSetEnd="@+id/showBanner" />
+        motion:constraintSetEnd="@+id/hideBanner" />
 </MotionScene>

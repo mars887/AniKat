@@ -1,7 +1,7 @@
 package daxo.the.data.interfaces.media_store
 
-import daxo.core.model.media.ExtendedMediaCard
-import daxo.core.model.media.ExtendedMediaCardViewed
+import daxo.core.model.media.media.extended.ExtendedMediaCard
+import daxo.core.model.media.media.extended.ExtendedMediaCardViewed
 
 interface IMediaViewHistoryRepo {
     suspend fun getLastViewed(): ExtendedMediaCardViewed?

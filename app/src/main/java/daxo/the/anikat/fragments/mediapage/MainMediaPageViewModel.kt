@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import daxo.core.images.ImageInfoModel
-import daxo.core.model.media.ExtendedMediaCard
+import daxo.core.model.media.media.extended.ExtendedMediaCard
 import daxo.the.anikat.fragments.dialogs.imaged.ImageShareLoadDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +27,8 @@ class MainMediaPageViewModel(
     }
 }
 
+
+// factories
 class MainMediaPageViewModelFactoryFactory @Inject constructor(
     private val onMediaOpenedUseCase: OnMediaOpenedUseCase,
 ) {

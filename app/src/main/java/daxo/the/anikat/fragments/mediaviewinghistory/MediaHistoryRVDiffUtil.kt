@@ -1,7 +1,7 @@
 package daxo.the.anikat.fragments.mediaviewinghistory
 
 import androidx.recyclerview.widget.DiffUtil
-import daxo.core.model.media.ExtendedMediaCardViewed
+import daxo.core.model.media.media.extended.ExtendedMediaCardViewed
 
 class MediaHistoryRVDiffUtil(val oldData: List<ExtendedMediaCardViewed>?, val newData: List<ExtendedMediaCardViewed>?) :
     DiffUtil.Callback() {

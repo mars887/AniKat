@@ -1,0 +1,17 @@
+fragment basicReviewQuery on ReviewConnection {
+    edges {
+        node {
+            ... basicReview
+        }
+    }
+}
+
+fragment basicReview on Review {
+    id
+    userId
+    summary
+    score
+    user {
+        ... basicUser
+    }
+}

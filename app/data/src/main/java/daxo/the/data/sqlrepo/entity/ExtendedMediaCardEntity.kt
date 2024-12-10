@@ -3,14 +3,12 @@ package daxo.the.data.sqlrepo.entity
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import daxo.the.data.sqlrepo.entity.converters.*
 import daxo.core.model.media.enums.MediaFormat
 import daxo.core.model.media.enums.MediaSeason
-import daxo.core.model.media.minis.CoverImage
-import daxo.core.model.media.minis.MediaTitle
-import daxo.core.model.media.minis.NextAiringEpisode
-import daxo.core.model.media.minis.Studios
+import daxo.core.model.byApollo.media.BasicStudioQuery
+import daxo.core.model.byApollo.media.MediaCoverImage
+import daxo.core.model.byApollo.media.MediaTitle
+import daxo.core.model.byApollo.media.NextAiringEpisode
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 
@@ -19,7 +17,7 @@ import java.util.Date
 data class ExtendedMediaCardEntity(
     @PrimaryKey val mediaId: Int,
     val title: MediaTitle?,
-    val studios: Studios?,
+    val studios: BasicStudioQuery?,
     val season: MediaSeason?,
     val seasonYear: Int?,
     val nextAiringEpisode: NextAiringEpisode?,
@@ -29,7 +27,7 @@ data class ExtendedMediaCardEntity(
     val genres: List<String>?,
     val averageScore: Int?,
     val favourites: Int?,
-    val coverImage: CoverImage?,
+    val coverImage: MediaCoverImage?,
     val bannerImage: String?,
     val lastUpdate: Date,
 ) : Parcelable

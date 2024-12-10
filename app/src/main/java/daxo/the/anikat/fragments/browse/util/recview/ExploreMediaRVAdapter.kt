@@ -11,7 +11,7 @@ import daxo.the.anikat.databinding.ExploreRvTestItemBinding
 import daxo.the.anikat.fragments.browse.data.entity.*
 import daxo.the.anikat.fragments.browse.util.decorator.MediaLineRVDecorator
 import daxo.the.anikat.fragments.browse.util.diffutil.ExploreMediaDiffUtilImpl
-import daxo.core.model.media.ExtendedMediaCard
+import daxo.core.model.media.media.extended.ExtendedMediaCard
 import jp.wasabeef.recyclerview.animators.FadeInAnimator
 
 class ExploreMediaRVAdapter(

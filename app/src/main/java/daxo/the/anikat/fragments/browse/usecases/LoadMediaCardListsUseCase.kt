@@ -2,8 +2,8 @@ package daxo.the.anikat.fragments.browse.usecases
 
 import daxo.services.ExtendedMediaPageService
 import daxo.the.anikat.fragments.browse.data.objects.ExploreCardListsInfo
-import daxo.the.data.api.explore.LoadMediaPagesParams
-import daxo.core.model.media.ExtendedMediaCardList
+import daxo.the.data.interfaces.media_get.LoadMediaPagesParams
+import daxo.core.model.media.media.extended.ExtendedMediaCardList
 import daxo.core.model.media.enums.MediaType
 import javax.inject.Inject
 

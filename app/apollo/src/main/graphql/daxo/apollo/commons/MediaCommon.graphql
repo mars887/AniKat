@@ -1,0 +1,93 @@
+fragment basicMedia on Media {
+    id
+    title {
+        ... mediaTitle
+    }
+    coverImage {
+        ... mediaCoverImage
+    }
+}
+
+fragment mediaTitle on MediaTitle {
+    romaji
+    english
+    native
+    userPreferred
+}
+
+fragment mediaCoverImage on MediaCoverImage {
+    extraLarge
+    large
+    medium
+    color
+}
+
+
+fragment mediaExternalLink on MediaExternalLink {
+    id
+    url
+    site
+    siteId
+    type
+    language
+    color
+    icon
+    notes
+    isDisabled
+}
+
+fragment mediaRanking on MediaRank {
+    id
+    rank
+    type
+    format
+    year
+    season
+    allTime
+    context
+}
+
+fragment basicMediaRelationQuery on MediaConnection {
+    edges {
+        id
+        node {
+            ... basicMedia
+        }
+        relationType
+    }
+}
+
+fragment mediaTag on MediaTag {
+    id
+    name
+    description
+    category
+    rank
+    isGeneralSpoiler
+    isMediaSpoiler
+    isAdult
+}
+
+fragment mediaTrailer on MediaTrailer {
+    id
+    site
+    thumbnail
+}
+
+fragment basicStats on MediaStats {
+    scoreDistribution {
+        score
+        amount
+    }
+    statusDistribution {
+        status
+        amount
+    }
+}
+
+fragment mediaStreamingEpisode on MediaStreamingEpisode {
+    title
+    thumbnail
+    url
+    site
+}

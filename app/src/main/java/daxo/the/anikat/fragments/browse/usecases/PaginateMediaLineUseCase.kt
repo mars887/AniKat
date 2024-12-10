@@ -1,7 +1,7 @@
 package daxo.the.anikat.fragments.browse.usecases
 
 import daxo.services.ExtendedMediaPageService
-import daxo.core.model.media.ExtendedMediaCardList
+import daxo.core.model.media.media.extended.ExtendedMediaCardList
 import javax.inject.Inject
 
 class PaginateMediaLineUseCase @Inject constructor(

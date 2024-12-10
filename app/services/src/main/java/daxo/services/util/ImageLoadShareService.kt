@@ -1,7 +1,9 @@
 package daxo.services.util
 
+import android.Manifest
 import android.content.ContentValues
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -17,6 +19,7 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import daxo.core.images.ImageInfoModel
 import java.io.File
 import java.io.FileOutputStream
@@ -24,9 +27,15 @@ import java.net.URL
 import javax.inject.Inject
 
 class ImageLoadShareService @Inject constructor(
-    @ActivityContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val gson: Gson
 ) {
+
+    fun checkPermissions(): Boolean {
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) ||
+                context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+    }
+
     fun performLoad(imageInfo: ImageInfoModel) {
         val workerConstraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
 
@@ -44,7 +53,7 @@ class ImageLoadShareService @Inject constructor(
         return imageInfo.qualityUrl.max?.let { imageUrl ->
             val bitmap = downloadImage(imageUrl)
             val imageExtension = imageUrl.takeLastWhile { it != '.' }
-            val fileName = imageUrl.replace("/","").replace(".","")
+            val fileName = imageUrl.replace("/", "").replace(".", "")
 
             val cachePath = File(context.cacheDir, "images")
             cachePath.mkdirs()
