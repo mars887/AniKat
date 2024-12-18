@@ -27,15 +27,15 @@ class ExtendedMediaCacheRepoRoomImpl @Inject constructor(
 
     private fun ExtendedMediaCard.toEntity(): ExtendedMediaCardEntity {
         return ExtendedMediaCardEntity(
-            mediaId, title, studios, season, seasonYear, nextAiringEpisode, format, description,
-            episodes, genres, averageScore, favourites, coverImage, bannerImage, lastUpdate
+            mediaId, mediaType, title, studios, season, seasonYear, nextAiringEpisode, format, description,
+            episodes, genres, averageScore, favourites, popularity, coverImage, bannerImage, lastUpdate
         )
     }
 
     private fun ExtendedMediaCardEntity.toDomain(): ExtendedMediaCard {
         return ExtendedMediaCard(
-            mediaId, title, studios, season, seasonYear, nextAiringEpisode, format, description,
-            episodes, genres, averageScore, favourites, coverImage, bannerImage, lastUpdate
+            mediaId, mediaType, title, studios, season, seasonYear, nextAiringEpisode, format, description,
+            episodes, genres, averageScore, favourites, popularity, coverImage, bannerImage, lastUpdate
         )
     }
 }

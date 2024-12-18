@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".fragments.mediapage.tabs.MmpOverviewTab">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutRoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/favoritesInfoLayout"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/defaultMargin"
+            android:background="@drawable/light_gray_shape"
+            app:layout_constraintEnd_toStartOf="@id/popularityInfoLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:src="@drawable/baseline_favorite_24"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/favoritesInfoLayoutText"
+                android:layout_width="match_parent"
+                tools:text="9947"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@android:color/primary_text_light"
+                android:fontFamily="@font/ubuntu_medium"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/popularityInfoLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:orientation="horizontal"
+            android:background="@drawable/light_gray_shape"
+            app:layout_constraintEnd_toStartOf="@id/scoreInfoLayout"
+            app:layout_constraintStart_toEndOf="@id/favoritesInfoLayout"
+            app:layout_constraintBottom_toBottomOf="@id/favoritesInfoLayout"
+            app:layout_constraintTop_toTopOf="@id/favoritesInfoLayout">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:src="@drawable/baseline_star_24"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/popularityInfoLayoutText"
+                android:layout_width="match_parent"
+                tools:text="46947"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@android:color/primary_text_light"
+                android:fontFamily="@font/ubuntu_medium"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/scoreInfoLayout"
+            android:layout_width="0dp"
+            android:orientation="horizontal"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:layout_height="0dp"
+            android:background="@drawable/light_gray_shape"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/favoritesInfoLayout"
+            app:layout_constraintStart_toEndOf="@id/popularityInfoLayout"
+            app:layout_constraintTop_toTopOf="@id/favoritesInfoLayout">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:src="@drawable/baseline_bolt_24"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/scoreInfoLayoutText"
+                android:layout_width="match_parent"
+                tools:text="93%"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@android:color/primary_text_light"
+                android:fontFamily="@font/ubuntu_medium"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

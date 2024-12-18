@@ -70,8 +70,8 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
-    //blurry
-    //implementation(libs.blurry)
+    // blurry
+    implementation(libs.blurry)
 
     // test
     implementation(libs.recyclerview.animators)

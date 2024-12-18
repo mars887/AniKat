@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="defaultMargin">8dp</dimen>
+    <dimen name="negativeDefaultMargin">-8dp</dimen>
     <dimen name="smallMargin">5dp</dimen>
 
     <dimen name="exploreFragmentBaseMargin">10dp</dimen>
     <dimen name="exploreFragmentSearchViewHeight">55dp</dimen>
     <dimen name="mediaHistorySearchViewHeight">70dp</dimen>
     <dimen name="MediaLineDefaultHeight">360dp</dimen>
+
+    <dimen name="mmpTabsInactiveWidthPadding" >10dp</dimen>
+    <dimen name="mmpTabsActiveWidthPadding" >24dp</dimen>
 </resources>

@@ -9,6 +9,7 @@ import daxo.core.model.byApollo.media.BasicStudioQuery
 import daxo.core.model.byApollo.media.MediaCoverImage
 import daxo.core.model.byApollo.media.MediaTitle
 import daxo.core.model.byApollo.media.NextAiringEpisode
+import daxo.core.model.media.enums.MediaType
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 
@@ -16,6 +17,7 @@ import java.util.Date
 @Entity(tableName = "extended_media_cache")
 data class ExtendedMediaCardEntity(
     @PrimaryKey val mediaId: Int,
+    val mediaType: MediaType?,
     val title: MediaTitle?,
     val studios: BasicStudioQuery?,
     val season: MediaSeason?,
@@ -27,6 +29,7 @@ data class ExtendedMediaCardEntity(
     val genres: List<String>?,
     val averageScore: Int?,
     val favourites: Int?,
+    val popularity: Int?,
     val coverImage: MediaCoverImage?,
     val bannerImage: String?,
     val lastUpdate: Date,

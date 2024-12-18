@@ -80,12 +80,12 @@ class NavController2 @AssistedInject constructor(
 
     fun popBackStack(): Boolean {
         val result = fragmentManager.popBackStackImmediate1()
-//        if ((fragmentManager.fragments.lastOrNull()?.javaClass as Class<out Fragment>) in fragmentsForExit) return false
-//
-//        while ((fragmentManager.fragments.lastOrNull()?.javaClass as Class<out Fragment>) in fragmentsForSkip) {
-//            val popped = fragmentManager.popBackStackImmediate1()
-//            if (!popped) return false
-//        } todo
+        if ((fragmentManager.fragments.lastOrNull()?.javaClass as Class<out Fragment>) in fragmentsForExit) return false
+
+        while ((fragmentManager.fragments.lastOrNull()?.javaClass as Class<out Fragment>) in fragmentsForSkip) {
+            val popped = fragmentManager.popBackStackImmediate1()
+            if (!popped) return false
+        }
         return result
     }
 

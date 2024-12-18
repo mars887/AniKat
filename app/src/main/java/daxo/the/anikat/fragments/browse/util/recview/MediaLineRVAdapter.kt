@@ -1,5 +1,6 @@
 package daxo.the.anikat.fragments.browse.util.recview
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Animatable2
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
@@ -22,7 +23,7 @@ class MediaLineRVAdapter(
 
     var data: ExtendedMediaCardListScrollable? = null
         set(value) {
-            val callback = BasicMediaCardListDiffUtil(field?.extendedMediaCardList,value?.extendedMediaCardList)
+            val callback = BasicMediaCardListDiffUtil(field?.extendedMediaCardList, value?.extendedMediaCardList)
             field = value
             DiffUtil.calculateDiff(callback)
                 .dispatchUpdatesTo(this)
@@ -44,6 +45,7 @@ class MediaLineRVAdapter(
 
     class MediaCardViewHolder(val binding: VerticalBasicMediaCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(
             cardsList: ExtendedMediaCardListScrollable,
             data: ExtendedMediaCard,
@@ -51,14 +53,23 @@ class MediaLineRVAdapter(
             position: Int
         ) {
             // media title
-            binding.titleTextView.text = data.title?.english
+            binding.titleTextView.text = data.title?.userPreferred ?: data.title?.english
+
+            binding.additionalInfoView.text = buildString {
+                data.favourites?.let {
+                    append("❤ $it")
+                }
+                data.popularity?.let {
+                    append("  ⭐ $it")
+                }
+            }
 
             // trending Counter
-            if(data.averageScore != -1) {
+            if (data.averageScore == -1) {
                 binding.trendingCounterView.visibility = View.INVISIBLE
             } else {
                 binding.trendingCounterView.visibility = View.VISIBLE
-                binding.trendingCounterView.text = data.averageScore.toString()
+                binding.trendingCounterView.text = "${data.averageScore}%"
             }
 
             // poster image
@@ -72,7 +83,7 @@ class MediaLineRVAdapter(
 
             // loading animation
             val drawable = binding.posterImageView.drawable
-            if(drawable is AnimatedVectorDrawable) {
+            if (drawable is AnimatedVectorDrawable) {
                 drawable.start()
 
                 drawable.registerAnimationCallback(object : Animatable2.AnimationCallback() {
@@ -82,7 +93,7 @@ class MediaLineRVAdapter(
 
             // open media click listener
             binding.posterImageView.setOnClickListener {
-                interactListener?.mediaItemClicked(cardsList,data,position)
+                interactListener?.mediaItemClicked(cardsList, data, position)
             }
         }
     }

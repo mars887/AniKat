@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mmp_tabs_nav_graph"
+    app:startDestination="@id/mmpCharactersTab">
+
+    <fragment
+        android:id="@+id/mmpCharactersTab"
+        android:name="daxo.the.anikat.fragments.mediapage.tabs.MmpCharactersTab"
+        android:label="fragment_mmp_characters_tab"
+        tools:layout="@layout/fragment_mmp_characters_tab" />
+    <fragment
+        android:id="@+id/mmpOverviewTab"
+        android:name="daxo.the.anikat.fragments.mediapage.tabs.MmpOverviewTab"
+        android:label="fragment_mmp_overview_tab"
+        tools:layout="@layout/fragment_mmp_overview_tab" />
+    <fragment
+        android:id="@+id/mmpWatchTab"
+        android:name="daxo.the.anikat.fragments.mediapage.tabs.MmpWatchTab"
+        android:label="fragment_mmp_watch_tab"
+        tools:layout="@layout/fragment_mmp_watch_tab" />
+</navigation>

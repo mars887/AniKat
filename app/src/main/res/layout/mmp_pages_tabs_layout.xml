@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
+
+        <View
+            android:id="@+id/underline"
+            android:layout_width="100dp"
+            android:layout_gravity="bottom"
+            android:layout_height="2dp" />
+
+        <LinearLayout
+            android:background="@null"
+            android:id="@+id/buttonsLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/overviewTab"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/mmpTabsInactiveWidthPadding"
+                android:text="Overview"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/watchTab"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/mmpTabsInactiveWidthPadding"
+                android:text="Watch"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/charactersTab"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/mmpTabsInactiveWidthPadding"
+                android:text="Characters"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/staffTab"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/mmpTabsInactiveWidthPadding"
+                android:text="Staff"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/reviewsTab"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/mmpTabsInactiveWidthPadding"
+                android:text="Reviews"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/statsTab"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/mmpTabsInactiveWidthPadding"
+                android:text="Stats"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/socialTab"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/mmpTabsInactiveWidthPadding"
+                android:text="Social"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+</HorizontalScrollView>

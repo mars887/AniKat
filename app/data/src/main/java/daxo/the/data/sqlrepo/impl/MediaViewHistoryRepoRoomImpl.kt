@@ -26,8 +26,8 @@ class MediaViewHistoryRepoRoomImpl @Inject constructor(
 
     private fun ExtendedMediaCardViewedEntity.toDomain(): ExtendedMediaCardViewed {
         return ExtendedMediaCardViewed(
-            mediaId, title, studios, season, seasonYear, nextAiringEpisode, format, description,
-            episodes, genres, averageScore, favourites, coverImage, bannerImage, lastUpdate, lastViewed
+            mediaId, mediaType, title, studios, season, seasonYear, nextAiringEpisode, format, description,
+            episodes, genres, averageScore, favourites, popularity, coverImage, bannerImage, lastUpdate, lastViewed
         )
     }
 

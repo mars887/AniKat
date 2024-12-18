@@ -13,6 +13,9 @@ import daxo.the.data.interfaces.media_get.FMCRequestParams
 import daxo.the.data.interfaces.media_get.IFullMediaCardRepo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class FullMediaCardRepoApolloImpl @Inject constructor(
@@ -31,7 +34,6 @@ class FullMediaCardRepoApolloImpl @Inject constructor(
             voiceActorsLanguage = Optional.presentIfNotNull(params.voiceActorsLanguage.toApollo())
         )
 
-
         val result = apolloClient.query(query)
             .failFastIfOffline(true)
             .execute()
@@ -45,13 +47,36 @@ class FullMediaCardRepoApolloImpl @Inject constructor(
             Log.i(TAG, " exception: ${it.message}")
         }
 
-        return ApolloResponseConverter.toDomain(
-            result.data?.Media
-        )
+        return ApolloResponseConverter.toDomain(result.data?.Media)
     }
 
     override suspend fun getFullMediaCardFlow(id: Int, type: MediaType, params: FMCRequestParams): Flow<FullMediaCard> {
-        TODO()
+        while (queryTimeController.checkTime()) delay(50)
+
+        val query = FullMediaCardQuery(
+            id = Optional.presentIfNotNull(id),
+            type = Optional.presentIfNotNull(type.toApollo()),
+            innerListsPerPage = Optional.presentIfNotNull(params.innerListsPerPage),
+            innerListsPage = Optional.presentIfNotNull(params.innerListsPage),
+            voiceActorsLanguage = Optional.presentIfNotNull(params.voiceActorsLanguage.toApollo())
+        )
+
+        val result = apolloClient.query(query)
+            .failFastIfOffline(true)
+            .toFlow()
+
+        return result.onEach { result ->
+            result.errors?.let { it ->
+                it.forEach {
+                    Log.i(TAG, " errors: ${it.message}")
+                }
+            }
+            result.exception?.let {
+                Log.i(TAG, " exception: ${it.message}")
+            }
+        }.map { result ->
+            ApolloResponseConverter.toDomain(result.data?.Media)
+        }.filterNotNull()
     }
 
     companion object {

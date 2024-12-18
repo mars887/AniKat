@@ -4,60 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     app:layoutDescription="@xml/fragment_main_media_page_scene"
     tools:context=".fragments.mediapage.MainMediaPageFragment">
 
-    <TextView
-        android:id="@+id/centeredText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="main media page" />
+
+    <include
+        android:id="@+id/pagesTabsLayout"
+        layout="@layout/mmp_pages_tabs_layout"
+        android:layout_width="0dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="@dimen/defaultMargin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/watchStatusButton" />
+
 
     <ImageView
         android:id="@+id/topBannerImage"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:scaleType="centerCrop"
+        android:layout_height="180dp"
         android:alpha="1.0"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/temp_image_media_banner" />
 
-    <View
+    <FrameLayout
         android:id="@+id/underBannerBackgroundView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="-10dp"
-        android:background="@color/underBannerViewColor"
-        app:layout_constraintBottom_toBottomOf="@id/watchStatusButton"
+        android:layout_marginTop="-12dp"
+        android:background="@drawable/white_to_transperent_gradient"
+        app:layout_constraintBottom_toBottomOf="@id/topBannerImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBannerImage" />
+        app:layout_constraintTop_toTopOf="@id/titleView" />
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/topPosterImageContainer"
         android:layout_width="wrap_content"
         android:layout_height="140dp"
-        android:elevation="@dimen/defaultMargin"
-        app:cardCornerRadius="7dp"
-        android:layout_marginBottom="@dimen/defaultMargin"
         android:layout_marginHorizontal="@dimen/defaultMargin"
-        app:cardBackgroundColor="@color/black"
+        android:elevation="@dimen/defaultMargin"
         android:maxWidth="200dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/underBannerBackgroundView">
+        app:cardBackgroundColor="@color/black"
+        app:cardCornerRadius="7dp"
+        app:layout_constraintBottom_toBottomOf="@id/watchStatusButton"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:elevation="@dimen/defaultMargin"
-            app:cardCornerRadius="7dp"
             android:id="@+id/topPosterImage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:src="@drawable/temp_image_poster" />
+            android:elevation="@dimen/defaultMargin"
+            android:src="@drawable/temp_image_poster"
+            app:cardCornerRadius="7dp" />
 
     </androidx.cardview.widget.CardView>
 
@@ -68,13 +73,14 @@
         android:layout_height="50dp"
         android:layout_marginHorizontal="@dimen/defaultMargin"
         android:layout_marginVertical="@dimen/defaultMargin"
+        android:alpha="1.0"
         android:background="@drawable/media_card_watch_status_button_background_shape"
         android:fontFamily="@font/ubuntu_medium"
         android:text="Add to list"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@id/favoriteButton"
         app:layout_constraintStart_toEndOf="@id/topPosterImageContainer"
-        app:layout_constraintTop_toBottomOf="@id/titleView" />
+        app:layout_constraintTop_toBottomOf="@id/topBannerImage" />
 
     <ImageButton
         android:id="@+id/favoriteButton"
@@ -82,27 +88,50 @@
         android:layout_height="50dp"
         android:layout_marginVertical="@dimen/defaultMargin"
         android:layout_marginEnd="@dimen/defaultMargin"
+        android:alpha="1.0"
         android:background="@drawable/media_card_favorite_background_shape"
         android:src="@drawable/favorite_border_icon"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/watchStatusButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/watchStatusButton" />
 
     <TextView
         android:id="@+id/titleView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/underBannerBackgroundView"
-        app:layout_constraintBottom_toTopOf="@id/watchStatusButton"
-        tools:text="test title"
-        android:textSize="15sp"
-        android:layout_marginTop="@dimen/defaultMargin"
-        android:layout_marginEnd="@dimen/defaultMargin"
+        android:layout_marginBottom="2dp"
+        android:alpha="1.0"
         android:fontFamily="@font/ubuntu_medium"
-        app:layout_constraintStart_toStartOf="@id/watchStatusButton"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@id/studioFavoritesYearView"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="@color/white" />
+        app:layout_constraintStart_toStartOf="@id/watchStatusButton"
+        tools:text="The Yltra super PUPER epta anime naxyi super blyat" />
+
+    <TextView
+        android:id="@+id/studioFavoritesYearView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ubuntu_medium"
+        android:paddingBottom="@dimen/smallMargin"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/watchStatusButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/watchStatusButton"
+        tools:text="The Studio •  Fall 2021" />
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/mmpFragmentsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pagesTabsLayout" />
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

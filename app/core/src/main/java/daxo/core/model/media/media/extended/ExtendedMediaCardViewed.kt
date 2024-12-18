@@ -7,12 +7,14 @@ import daxo.core.model.byApollo.media.BasicStudioQuery
 import daxo.core.model.byApollo.media.MediaCoverImage
 import daxo.core.model.byApollo.media.MediaTitle
 import daxo.core.model.byApollo.media.NextAiringEpisode
+import daxo.core.model.media.enums.MediaType
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 
 @Parcelize
 data class ExtendedMediaCardViewed(
     val mediaId: Int,
+    val mediaType: MediaType? = null,
     val title: MediaTitle? = null,
     val studios: BasicStudioQuery? = null,
     val season: MediaSeason? = null,
@@ -24,6 +26,7 @@ data class ExtendedMediaCardViewed(
     val genres: List<String>? = null,
     val averageScore: Int? = null,
     val favourites: Int? = null,
+    val popularity: Int? = null,
     val coverImage: MediaCoverImage? = null,
     val bannerImage: String? = null,
     val lastUpdate: Date? = null,
@@ -45,8 +48,8 @@ data class ExtendedMediaCardViewed(
 
     fun toExtendedMediaCard(): ExtendedMediaCard {
         return ExtendedMediaCard(
-            mediaId, title, studios, season, seasonYear, nextAiringEpisode, format, description,
-            episodes, genres, averageScore, favourites, coverImage, bannerImage, lastUpdate ?: Date()
+            mediaId, mediaType, title, studios, season, seasonYear, nextAiringEpisode, format, description,
+            episodes, genres, averageScore, favourites, popularity, coverImage, bannerImage, lastUpdate ?: Date()
         )
     }
 }

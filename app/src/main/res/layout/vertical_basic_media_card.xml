@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:cardCornerRadius="@dimen/defaultMargin">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/itemConstraintLayout"
@@ -28,40 +29,63 @@
             android:id="@+id/titleBackgroundLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#66333333"
             android:minHeight="60dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="#66333333"
+
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingHorizontal="@dimen/defaultMargin"
-            android:paddingBottom="@dimen/defaultMargin"
-            app:layout_constraintBottom_toBottomOf="parent" >
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/titleTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="@dimen/defaultMargin"
+                android:layout_marginHorizontal="@dimen/smallMargin"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/ubuntu_medium"
                 android:textColor="#fff"
-                android:textSize="16sp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="14sp"
+                android:paddingBottom="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:fontFamily="@font/ubuntu_medium"
-                app:layout_constraintEnd_toStartOf="@id/trendingCounterView"
                 tools:text="Kanan-sama wa Akumade Choroi" />
 
             <TextView
                 android:id="@+id/trendingCounterView"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="44dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="-2dp"
+                android:layout_marginBottom="-2dp"
                 android:background="@drawable/media_cart_like_counter_shape"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="21sp"
                 android:fontFamily="@font/ubuntu_medium"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="75" />
+                tools:text="75%" />
+
+            <TextView
+                android:id="@+id/additionalInfoView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="@dimen/smallMargin"
+                android:fontFamily="@font/ubuntu_medium"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:paddingStart="1dp"
+                android:layout_marginBottom="2dp"
+                android:gravity="start|center_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/trendingCounterView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/trendingCounterView"
+                tools:text="The Studio" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

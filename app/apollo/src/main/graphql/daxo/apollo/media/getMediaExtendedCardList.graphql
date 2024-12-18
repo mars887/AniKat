@@ -22,6 +22,7 @@ query GetMediaExtendedCardFilteredQuery(
             isAdult: $isAdult
         ) {
             id
+            type
             title {
                 ... mediaTitle
             }
@@ -39,6 +40,7 @@ query GetMediaExtendedCardFilteredQuery(
             genres
             averageScore
             favourites
+            popularity
             seasonYear
             coverImage {
                 ... mediaCoverImage
